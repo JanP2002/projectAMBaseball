@@ -130,7 +130,7 @@ class MainActivity : ComponentActivity() {
             Button(
                 onClick = { playersIntent() },
             ) {
-                Text(text = "Gracze ")
+                Text(text = "Zobacz Graczy")
             }
         }
 

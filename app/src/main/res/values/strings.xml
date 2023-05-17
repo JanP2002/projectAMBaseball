@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BaseballApplication</string>
+    <string name="defName">#1 DefaultName</string>
+    <string name="stats">2 mecze</string>
+    <string name="stats2">6 PA</string>
+    <string name="stats3">0 RBI</string>
+    <string name="stats4">.833 OPS</string>
+</resources>

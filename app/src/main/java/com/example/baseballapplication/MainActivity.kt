@@ -3,7 +3,6 @@ package com.example.baseballapplication
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -88,21 +87,29 @@ class MainActivity : ComponentActivity() {
     }
 
 
-//    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-//            result -> val data = result.data
-//        //Toast.makeText(this, data?.getStringExtra("tag"), Toast.LENGTH_SHORT).show()
-//
-//
-//    }
+    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            result -> val data = result.data
+        //Toast.makeText(this, data?.getStringExtra("tag"), Toast.LENGTH_SHORT).show()
 
-//    private fun onClick() {
-//        val myIntent = Intent(this, PlayersActivity::class.java)
-//        myIntent.putParcelableArrayListExtra("players",players)
-//        resultLauncher.launch(myIntent)
-//
-//    }
 
-    fun playersIntent() {
+    }
+
+    private fun showTeams() {
+        val myIntent = Intent(this, TeamsActivity::class.java)
+        //myIntent.putParcelableArrayListExtra("players",players)
+        resultLauncher.launch(myIntent)
+
+    }
+
+
+    private fun showStadiums() {
+        val myIntent = Intent(this, StadiumsActivity::class.java)
+        //myIntent.putParcelableArrayListExtra("players",players)
+        resultLauncher.launch(myIntent)
+
+    }
+
+    fun showPlayers() {
 
 //        val bundle = Bundle()
 //        bundle.putParcelableArrayList("players",players)
@@ -112,6 +119,10 @@ class MainActivity : ComponentActivity() {
 //        intent.putExtra("myWorth",0)
         intent.putParcelableArrayListExtra("players",players)
         startActivity(intent);
+
+//        val intent = Intent(this, TestActivity::class.java)
+//        startActivity(intent);
+
     }
 
 
@@ -128,9 +139,22 @@ class MainActivity : ComponentActivity() {
         ) {
 
             Button(
-                onClick = { playersIntent() },
+                onClick = { showPlayers() },
             ) {
                 Text(text = "Zobacz Graczy")
+            }
+
+            Button(
+                onClick = { showTeams() },
+            ) {
+                Text(text = "Zobacz Druzyny")
+            }
+
+
+            Button(
+                onClick = { showStadiums() },
+            ) {
+                Text(text = "Zobacz Stadiony")
             }
         }
 

@@ -6,16 +6,26 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role.Companion.Image
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -129,33 +139,132 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun MainMenu() {
         //var text by remember { mutableStateOf("") }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 30.dp, vertical = 200.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceEvenly
+//        Column(
+//            modifier = Modifier
+//                .fillMaxSize()
+//                .padding(horizontal = 30.dp, vertical = 200.dp),
+//            horizontalAlignment = Alignment.CenterHorizontally,
+//            verticalArrangement = Arrangement.SpaceEvenly
+//
+//        ) {
+//
+//            Button(
+//                onClick = { showPlayers() },
+//            ) {
+//                Text(text = "Zobacz Graczy")
+//            }
+//
+//            Button(
+//                onClick = { showTeams() },
+//            ) {
+//                Text(text = "Zobacz Druzyny")
+//            }
+//
+//
+//            Button(
+//                onClick = { showStadiums() },
+//            ) {
+//                Text(text = "Zobacz Stadiony")
+//            }
+//        }
 
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(200.dp)
+        
         ) {
+            item {
+                Box(modifier = Modifier
+                    .padding(8.dp)
+                    .aspectRatio(1f)
+                    .clip(RoundedCornerShape(5.dp))
+                    .background(Color.Cyan)
+                    .clickable(onClick = {
+                        showPlayers()
+                    }),
+                    contentAlignment = Alignment.Center,
 
-            Button(
-                onClick = { showPlayers() },
-            ) {
-                Text(text = "Zobacz Graczy")
+                    ) {
+
+                    Row(
+                        modifier = Modifier.fillMaxHeight(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.player),
+                            contentDescription = "My Image",
+                            modifier = Modifier
+                                .weight(0.3f)
+                                .fillMaxWidth()
+                                .fillMaxHeight()
+                                .height(50.dp)
+                        )
+
+
+                        Box(contentAlignment = Alignment.Center,)
+                        {
+                            Text(
+                                text = "Gracze",
+                                modifier = Modifier.padding(16.dp).fillMaxHeight(),
+                                style = TextStyle(color = Color.Black, fontSize = 24.sp),
+                                )
+                        }
+
+                    }
+                    
+
+
+                }
+
             }
 
-            Button(
-                onClick = { showTeams() },
-            ) {
-                Text(text = "Zobacz Druzyny")
+
+            item {
+                Box(modifier = Modifier
+                    .padding(8.dp)
+                    .aspectRatio(1f)
+                    .clip(RoundedCornerShape(5.dp))
+                    .background(Color.Cyan)
+                    .clickable(onClick = {
+                        showTeams()
+                    }),
+                    contentAlignment = Alignment.Center,
+
+                    ) {
+                    Text(
+                        text = "Drużyny",
+                        modifier = Modifier.padding(16.dp),
+                        style = TextStyle(color = Color.Black, fontSize = 24.sp)
+                    )
+
+                }
+
             }
 
 
-            Button(
-                onClick = { showStadiums() },
-            ) {
-                Text(text = "Zobacz Stadiony")
+            item {
+                Box(modifier = Modifier
+                    .padding(8.dp)
+                    .aspectRatio(1f)
+                    .clip(RoundedCornerShape(5.dp))
+                    .background(Color.Cyan)
+                    .clickable(onClick = {
+                        showStadiums()
+                    }),
+                    contentAlignment = Alignment.Center,
+
+                    ) {
+                    Text(
+                        text = "Stadiony",
+                        modifier = Modifier.padding(16.dp),
+                        style = TextStyle(color = Color.Black, fontSize = 24.sp)
+                    )
+
+                }
+
             }
+
+
         }
 
     }

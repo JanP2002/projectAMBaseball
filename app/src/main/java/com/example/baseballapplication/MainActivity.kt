@@ -30,6 +30,9 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.baseballapplication.ui.theme.BaseballApplicationTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 
 class MainActivity : ComponentActivity() {
@@ -37,9 +40,10 @@ class MainActivity : ComponentActivity() {
     val sheetId = "1pYb2Di5YoF0IbpV0kq1D25J_Vv-JGPWu7_yE0kAxFS0"
     val apiKEY = "AIzaSyCfkvR4qvJbbL7ObotNmf68XA1Ghc4abnM"
 
-    val players = ArrayList<PlayersModel>()
+    var players = ArrayList<PlayersModel>()
 
     var jsonArray = JSONArray()
+
 
     fun nameFormatter(number: String, name: String) : String {
         return "#$number $name"
@@ -49,6 +53,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val url = "https://sheets.googleapis.com/v4/spreadsheets/"+sheetId+"/values/BAT?key="+apiKEY
         val queue = Volley.newRequestQueue(this)
+        val playerDB by lazy { PlayerDatabase.getDatabase(this).dao() }
+
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, url, null, { response ->
             try {
@@ -66,14 +72,22 @@ class MainActivity : ComponentActivity() {
                     val pa = json.getString(3)
                     val rbi = json.getString(12)
                     val ops = json.getString(36)
-
+                    val team = json.getString(38)
+                    val img = json.getString(39)
 
                     val player = PlayersModel(nameFormatter(strNumber,strName),
-                        "$g G", "$pa PA", "$rbi RBI", "$ops OPS",R.drawable.player)
-                    players.add(player)
+                        "$g G", "$pa PA", "$rbi RBI", "$ops OPS",team,img)
+                    //players.add(player)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        playerDB.insertPlayer(player)
+                    }
+
+
                 } catch(e: Exception) {
                     Log.i("DBe", e.toString())
                 }
+
+
             }
         },
             { error ->
@@ -81,6 +95,9 @@ class MainActivity : ComponentActivity() {
                 // TODO: Handle error
             }
         )
+        CoroutineScope(Dispatchers.IO).launch {
+            players = playerDB.getAllPlayers() as ArrayList<PlayersModel>
+        }
         queue.add(jsonObjectRequest)
         setContent {
             BaseballApplicationTheme {

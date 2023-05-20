@@ -30,7 +30,7 @@ internal class PlayersRecyclerViewAdapter(context: Context, playersModel: ArrayL
         holder.tvStat2.setText(playersModel[position].stat2)
         holder.tvStat3.setText(playersModel[position].stat3)
         holder.tvStat4.setText(playersModel[position].stat4)
-        holder.imageView.setImageResource(playersModel[position].image)
+        //holder.imageView.setImageResource(playersModel[position].image)
     }
 
     override fun getItemCount(): Int {

@@ -1,6 +1,7 @@
 package com.example.baseballapplication
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -16,10 +17,14 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.TextStyle
@@ -30,6 +35,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.baseballapplication.ui.theme.BaseballApplicationTheme
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -43,6 +49,7 @@ class MainActivity : ComponentActivity() {
     var players = ArrayList<PlayersModel>()
 
     var jsonArray = JSONArray()
+
 
 
     fun nameFormatter(number: String, name: String) : String {
@@ -155,38 +162,10 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun MainMenu() {
-        //var text by remember { mutableStateOf("") }
-//        Column(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .padding(horizontal = 30.dp, vertical = 200.dp),
-//            horizontalAlignment = Alignment.CenterHorizontally,
-//            verticalArrangement = Arrangement.SpaceEvenly
-//
-//        ) {
-//
-//            Button(
-//                onClick = { showPlayers() },
-//            ) {
-//                Text(text = "Zobacz Graczy")
-//            }
-//
-//            Button(
-//                onClick = { showTeams() },
-//            ) {
-//                Text(text = "Zobacz Druzyny")
-//            }
-//
-//
-//            Button(
-//                onClick = { showStadiums() },
-//            ) {
-//                Text(text = "Zobacz Stadiony")
-//            }
-//        }
-
+        val weight = 0.35f
+        val padding = 5
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(200.dp)
+            columns = GridCells.Adaptive(180.dp)
         
         ) {
             item {
@@ -207,24 +186,26 @@ class MainActivity : ComponentActivity() {
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+
                         Image(
-                            painter = painterResource(R.drawable.player),
+                            painter = painterResource(R.drawable.przyklad1),
                             contentDescription = "My Image",
                             modifier = Modifier
-                                .weight(0.3f)
-                                .fillMaxWidth()
+                                .weight(weight)
                                 .fillMaxHeight()
-                                .height(50.dp)
+                                .height(200.dp),
+                            contentScale = ContentScale.FillHeight,
                         )
 
 
-                        Box(contentAlignment = Alignment.Center,)
+                        Box(contentAlignment = Alignment.Center)
                         {
                             Text(
                                 text = "Gracze",
-                                modifier = Modifier.padding(16.dp).fillMaxHeight(),
-                                style = TextStyle(color = Color.Black, fontSize = 24.sp),
-                                )
+                                modifier = Modifier.padding(padding.dp),
+                                style = TextStyle(color = Color.Black, fontSize = 20.sp)
+                            )
+
                         }
 
                     }
@@ -248,11 +229,35 @@ class MainActivity : ComponentActivity() {
                     contentAlignment = Alignment.Center,
 
                     ) {
-                    Text(
-                        text = "Drużyny",
-                        modifier = Modifier.padding(16.dp),
-                        style = TextStyle(color = Color.Black, fontSize = 24.sp)
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxHeight(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        Image(
+                            painter = painterResource(R.drawable.przyklad2),
+                            contentDescription = "My Image",
+                            modifier = Modifier
+                                .weight(weight)
+                                .fillMaxHeight()
+                                .height(200.dp),
+                            contentScale = ContentScale.FillHeight,
+                        )
+
+
+                        Box(contentAlignment = Alignment.Center)
+                        {
+                            Text(
+                                text = "Drużyny",
+                                modifier = Modifier.padding(padding.dp),
+                                style = TextStyle(color = Color.Black, fontSize = 20.sp)
+                            )
+
+                        }
+
+                    }
+
 
                 }
 
@@ -271,11 +276,35 @@ class MainActivity : ComponentActivity() {
                     contentAlignment = Alignment.Center,
 
                     ) {
-                    Text(
-                        text = "Stadiony",
-                        modifier = Modifier.padding(16.dp),
-                        style = TextStyle(color = Color.Black, fontSize = 24.sp)
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxHeight(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        Image(
+                            painter = painterResource(R.drawable.przyklad3),
+                            contentDescription = "My Image",
+                            modifier = Modifier
+                                .weight(weight)
+                                .fillMaxHeight()
+                                .height(200.dp),
+                            contentScale = ContentScale.FillHeight,
+                        )
+
+
+                        Box(contentAlignment = Alignment.Center)
+                        {
+                            Text(
+                                text = "Stadiony",
+                                modifier = Modifier.padding(padding.dp),
+                                style = TextStyle(color = Color.Black, fontSize = 18.sp)
+                            )
+
+                        }
+
+                    }
+
 
                 }
 

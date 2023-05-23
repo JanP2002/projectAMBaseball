@@ -8,20 +8,23 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-internal class PlayersRecyclerViewAdapter(context: Context, playersModel: ArrayList<PlayersModel>) :
+internal class PlayersRecyclerViewAdapter(context: Context, playersModel: ArrayList<PlayersModel>,
+recyclerViewIf: RecyclerViewInterface) :
     RecyclerView.Adapter<PlayersRecyclerViewAdapter.MyViewHolder>() {
     var context: Context
     var playersModel: ArrayList<PlayersModel>
+    var recyclerViewIf: RecyclerViewInterface
 
     init {
         this.context = context
         this.playersModel = playersModel
+        this.recyclerViewIf = recyclerViewIf
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.recycler_player, parent,false)
-        return MyViewHolder(view)
+        return MyViewHolder(view, recyclerViewIf)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -37,7 +40,8 @@ internal class PlayersRecyclerViewAdapter(context: Context, playersModel: ArrayL
         return playersModel.size
     }
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class MyViewHolder(itemView: View, recyclerViewIf: RecyclerViewInterface)
+        : RecyclerView.ViewHolder(itemView) {
         var imageView: ImageView
         var tvName: TextView
         var tvStat1: TextView
@@ -52,6 +56,14 @@ internal class PlayersRecyclerViewAdapter(context: Context, playersModel: ArrayL
             tvStat2 = itemView.findViewById(R.id.stat2)
             tvStat3 = itemView.findViewById(R.id.stat3)
             tvStat4 = itemView.findViewById(R.id.stat4)
+
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if(position != RecyclerView.NO_POSITION)
+                {
+                    recyclerViewIf.onItemClick(position)
+                }
+            }
         }
     }
 }

@@ -152,7 +152,7 @@ class MainActivity : ComponentActivity() {
 //        intent.putExtra("bundle",bundle)
 //        intent.putExtra("myWorth",0)
         intent.putParcelableArrayListExtra("players",players)
-        startActivity(intent);
+        startActivity(intent)
 
 //        val intent = Intent(this, TestActivity::class.java)
 //        startActivity(intent);

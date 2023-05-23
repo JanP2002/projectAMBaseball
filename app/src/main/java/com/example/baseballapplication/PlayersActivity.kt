@@ -1,5 +1,6 @@
 package com.example.baseballapplication
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -9,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class PlayersActivity : AppCompatActivity() {
+class PlayersActivity : AppCompatActivity(), RecyclerViewInterface {
     var playersModel = ArrayList<PlayersModel>()
     var playerImage = R.drawable.player
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -20,11 +21,19 @@ class PlayersActivity : AppCompatActivity() {
 
         val p : ArrayList<PlayersModel> = intent.getParcelableArrayListExtra("players")!!
         playersModel = p
-        val adapter = PlayersRecyclerViewAdapter(this, playersModel)
+        val adapter = PlayersRecyclerViewAdapter(this, playersModel, this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         //  setUpPlayerModels()
     }
+
+    override fun onItemClick(position: Int) {
+        val intent = Intent(this, PlayerDescriptionActivity::class.java)
+
+//        intent.putParcelableArrayListExtra("players",players)
+        startActivity(intent);
+    }
+
 
 //    private fun setUpPlayerModels() {
 //

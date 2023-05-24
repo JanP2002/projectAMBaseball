@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 
 internal class PlayersRecyclerViewAdapter(context: Context, playersModel: ArrayList<PlayersModel>,
 recyclerViewIf: RecyclerViewInterface) :
@@ -30,6 +31,15 @@ recyclerViewIf: RecyclerViewInterface) :
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+
+        val imageUrl = playersModel[position].image
+
+        Picasso.get()
+            .load(imageUrl)
+            .placeholder(R.drawable.player)  // Placeholder image
+            .error(R.drawable.error)  // Error image
+            .fit()
+            .into(holder.imageView)
 
         holder.tvName.text = playersModel[position].nameAndNumber
         holder.tvStat1.text = playersModel[position].stat1.toString()+" G"

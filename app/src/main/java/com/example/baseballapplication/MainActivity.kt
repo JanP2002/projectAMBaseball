@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -28,6 +29,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,7 +39,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.baseballapplication.ui.theme.BaseballApplicationTheme
-import com.squareup.picasso.Picasso
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -75,16 +79,20 @@ class MainActivity : ComponentActivity() {
                     val json = jsonArray.getJSONArray(i)
                     val strName = json.getString(1)
                     val strNumber = json.getString(0)
-                    val g = json.getString(2)
-                    val pa = json.getString(3)
-                    val rbi = json.getString(12)
-                    val ops = json.getString(36)
+
+                    val game = json.getInt(2)
+                    val pa = json.getInt(3)
+                    val rbi = json.getInt(12)
+                    val ops = json.getString(36).replace(",",".").toDouble()
+
+
                     val team = json.getString(38)
                     val img = json.getString(39)
 
                     val player = PlayersModel(nameFormatter(strNumber,strName),
-                        "$g G", "$pa PA", "$rbi RBI", "$ops OPS",team,img)
+                        game,pa,rbi,ops,team,img)
                     //players.add(player)
+
                     CoroutineScope(Dispatchers.IO).launch {
                         playerDB.insertPlayer(player)
                     }
@@ -104,8 +112,11 @@ class MainActivity : ComponentActivity() {
         )
         CoroutineScope(Dispatchers.IO).launch {
             players = playerDB.getAllPlayers() as ArrayList<PlayersModel>
+            players.sortBy { -it.stat4 }
         }
+
         queue.add(jsonObjectRequest)
+
         setContent {
             BaseballApplicationTheme {
 //                // A surface container using the 'background' color from the theme
@@ -118,6 +129,7 @@ class MainActivity : ComponentActivity() {
                 MainMenu()
             }
         }
+
     }
 
 
@@ -165,13 +177,21 @@ class MainActivity : ComponentActivity() {
         val weight = 0.35f
         val padding = 5
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(180.dp)
-        
+            columns = GridCells.Adaptive(200.dp)
+
         ) {
+            item {
+                Text(text = "EKSTRALIGA 2023\nSTATYSTYKI",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 40.sp, textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(8.dp),
+                    fontFamily = FontFamily.Monospace
+                )
+            }
             item {
                 Box(modifier = Modifier
                     .padding(8.dp)
-                    .aspectRatio(1f)
+                    .aspectRatio(2f)
                     .clip(RoundedCornerShape(5.dp))
                     .background(Color.Cyan)
                     .clickable(onClick = {
@@ -186,30 +206,32 @@ class MainActivity : ComponentActivity() {
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-
-                        Image(
-                            painter = painterResource(R.drawable.przyklad1),
+                        Image(alignment = Alignment.CenterStart,
+                            painter = painterResource(R.drawable.player),
                             contentDescription = "My Image",
                             modifier = Modifier
-                                .weight(weight)
-                                .fillMaxHeight()
-                                .height(200.dp),
-                            contentScale = ContentScale.FillHeight,
+                                .weight(0.3f)
+//                                .fillMaxWidth()
+//                                .fillMaxHeight()
+                                .height(100.dp)
+                        )
+                        Text( textAlign = TextAlign.Center,
+                            text = "Zawodnicy",
+                            modifier = Modifier
+//                                .padding(16.dp)
+                                //  .fillMaxHeight()
+                                .align(Alignment.CenterVertically)
+                                .weight(0.3f),
+                            style = TextStyle(color = Color.Black, fontSize = 24.sp),
                         )
 
-
-                        Box(contentAlignment = Alignment.Center)
-                        {
-                            Text(
-                                text = "Gracze",
-                                modifier = Modifier.padding(padding.dp),
-                                style = TextStyle(color = Color.Black, fontSize = 20.sp)
-                            )
-
-                        }
+//                        Box(contentAlignment = Alignment.CenterEnd,)
+//                        {
+//
+//                        }
 
                     }
-                    
+
 
 
                 }
@@ -220,7 +242,7 @@ class MainActivity : ComponentActivity() {
             item {
                 Box(modifier = Modifier
                     .padding(8.dp)
-                    .aspectRatio(1f)
+                    .aspectRatio(2f)
                     .clip(RoundedCornerShape(5.dp))
                     .background(Color.Cyan)
                     .clickable(onClick = {
@@ -229,35 +251,11 @@ class MainActivity : ComponentActivity() {
                     contentAlignment = Alignment.Center,
 
                     ) {
-                    Row(
-                        modifier = Modifier.fillMaxHeight(),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-
-                        Image(
-                            painter = painterResource(R.drawable.przyklad2),
-                            contentDescription = "My Image",
-                            modifier = Modifier
-                                .weight(weight)
-                                .fillMaxHeight()
-                                .height(200.dp),
-                            contentScale = ContentScale.FillHeight,
-                        )
-
-
-                        Box(contentAlignment = Alignment.Center)
-                        {
-                            Text(
-                                text = "Drużyny",
-                                modifier = Modifier.padding(padding.dp),
-                                style = TextStyle(color = Color.Black, fontSize = 20.sp)
-                            )
-
-                        }
-
-                    }
-
+                    Text(
+                        text = "Drużyny",
+                        modifier = Modifier.padding(16.dp),
+                        style = TextStyle(color = Color.Black, fontSize = 24.sp)
+                    )
 
                 }
 
@@ -267,7 +265,7 @@ class MainActivity : ComponentActivity() {
             item {
                 Box(modifier = Modifier
                     .padding(8.dp)
-                    .aspectRatio(1f)
+                    .aspectRatio(2f)
                     .clip(RoundedCornerShape(5.dp))
                     .background(Color.Cyan)
                     .clickable(onClick = {
@@ -276,35 +274,11 @@ class MainActivity : ComponentActivity() {
                     contentAlignment = Alignment.Center,
 
                     ) {
-                    Row(
-                        modifier = Modifier.fillMaxHeight(),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-
-                        Image(
-                            painter = painterResource(R.drawable.przyklad3),
-                            contentDescription = "My Image",
-                            modifier = Modifier
-                                .weight(weight)
-                                .fillMaxHeight()
-                                .height(200.dp),
-                            contentScale = ContentScale.FillHeight,
-                        )
-
-
-                        Box(contentAlignment = Alignment.Center)
-                        {
-                            Text(
-                                text = "Stadiony",
-                                modifier = Modifier.padding(padding.dp),
-                                style = TextStyle(color = Color.Black, fontSize = 18.sp)
-                            )
-
-                        }
-
-                    }
-
+                    Text(
+                        text = "Stadiony",
+                        modifier = Modifier.padding(16.dp),
+                        style = TextStyle(color = Color.Black, fontSize = 24.sp)
+                    )
 
                 }
 
@@ -314,7 +288,6 @@ class MainActivity : ComponentActivity() {
         }
 
     }
-
 
 
 

@@ -7,58 +7,47 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 
-internal class PlayersRecyclerViewAdapter(context: Context, playersModel: ArrayList<PlayersModel>,
-recyclerViewIf: RecyclerViewInterface) :
-    RecyclerView.Adapter<PlayersRecyclerViewAdapter.MyViewHolder>() {
+internal class TeamsRecyclerViewAdapter(context : Context, teamsModel:ArrayList<TeamModel>, recyclerViewInterface: RecyclerViewInterface) :
+ RecyclerView.Adapter<TeamsRecyclerViewAdapter.MyViewHolder>(){
     var context: Context
-    var playersModel: ArrayList<PlayersModel>
+    var teamsModel: ArrayList<TeamModel>
     var recyclerViewIf: RecyclerViewInterface
 
     init {
         this.context = context
-        this.playersModel = playersModel
-        this.recyclerViewIf = recyclerViewIf
+        this.teamsModel = teamsModel
+        this.recyclerViewIf = recyclerViewInterface
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(context)
-        val view = inflater.inflate(R.layout.recycler_player, parent,false)
+        val view = inflater.inflate(R.layout.recycler_team, parent,false)
         return MyViewHolder(view, recyclerViewIf)
     }
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.tvName.text = playersModel[position].nameAndNumber
-        holder.tvStat1.text = playersModel[position].stat1.toString()+" G"
-        holder.tvStat2.text = playersModel[position].stat2.toString()+" PA"
-        holder.tvStat3.text = playersModel[position].stat3.toString()+" RBI"
-        holder.tvStat4.text = playersModel[position].stat4.toString()+" OPS"
+        holder.imageView.setImageDrawable(AppCompatResources.getDrawable(context,teamsModel[position].img))
+        holder.tvName.text = teamsModel[position].team
         //holder.imageView.setImageResource(playersModel[position].image)
     }
 
     override fun getItemCount(): Int {
-        return playersModel.size
+        return teamsModel.size
     }
 
     class MyViewHolder(itemView: View, recyclerViewIf: RecyclerViewInterface)
         : RecyclerView.ViewHolder(itemView) {
         var imageView: ImageView
         var tvName: TextView
-        var tvStat1: TextView
-        var tvStat2: TextView
-        var tvStat3: TextView
-        var tvStat4: TextView
 
         init {
             imageView = itemView.findViewById(R.id.imageView)
             tvName = itemView.findViewById(R.id.nameAndNumber)
-            tvStat1 = itemView.findViewById(R.id.stat1)
-            tvStat2 = itemView.findViewById(R.id.stat2)
-            tvStat3 = itemView.findViewById(R.id.stat3)
-            tvStat4 = itemView.findViewById(R.id.stat4)
 
             itemView.setOnClickListener {
                 val position = adapterPosition

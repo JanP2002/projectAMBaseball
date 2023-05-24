@@ -9,6 +9,9 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class PlayersActivity : AppCompatActivity(), RecyclerViewInterface {
     var playersModel = ArrayList<PlayersModel>()
@@ -24,6 +27,15 @@ class PlayersActivity : AppCompatActivity(), RecyclerViewInterface {
         val adapter = PlayersRecyclerViewAdapter(this, playersModel, this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+        this.supportActionBar?.title = "Zawodnicy"
+
+        var players = ArrayList<PlayersModel>()
+        val playerDB by lazy { PlayerDatabase.getDatabase(this).dao() }
+        CoroutineScope(Dispatchers.IO).launch {
+            players = playerDB.getAllPlayers() as ArrayList<PlayersModel>
+            players.sortBy { -it.stat4 }
+        }
+        Toast.makeText(this,players.size.toString(), Toast.LENGTH_LONG).show()
         //  setUpPlayerModels()
     }
 

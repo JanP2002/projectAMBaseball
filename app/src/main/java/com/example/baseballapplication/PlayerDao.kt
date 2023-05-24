@@ -12,4 +12,6 @@ interface PlayerDao {
     @Query("SELECT * from PlayersModel")
     fun getAllPlayers() : List<PlayersModel>
 
+    @Query("SELECT * FROM PlayersModel WHERE team = :shortTeam")
+    fun getTeamPlayers(shortTeam : String) : List<PlayersModel>
 }

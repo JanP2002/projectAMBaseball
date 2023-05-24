@@ -41,7 +41,7 @@ class TeamsActivity : AppCompatActivity(), RecyclerViewInterface {
                 teamsModel[i].players.sortBy { -it.stat4 }
             }
         }
-        Toast.makeText(this,players.size.toString(),Toast.LENGTH_LONG).show()
+//        Toast.makeText(this,players.size.toString(),Toast.LENGTH_LONG).show()
     }
 
     override fun onItemClick(position: Int) {

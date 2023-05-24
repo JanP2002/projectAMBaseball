@@ -35,7 +35,7 @@ class PlayersActivity : AppCompatActivity(), RecyclerViewInterface {
             players = playerDB.getAllPlayers() as ArrayList<PlayersModel>
             players.sortBy { -it.stat4 }
         }
-        Toast.makeText(this,players.size.toString(), Toast.LENGTH_LONG).show()
+//        Toast.makeText(this,players.size.toString(), Toast.LENGTH_LONG).show()
         //  setUpPlayerModels()
     }
 

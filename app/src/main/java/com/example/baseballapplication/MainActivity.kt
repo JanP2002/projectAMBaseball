@@ -176,116 +176,171 @@ class MainActivity : ComponentActivity() {
     fun MainMenu() {
         val weight = 0.35f
         val padding = 5
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(200.dp)
+        Column {
 
-        ) {
-            item {
+            Box( Modifier.fillMaxWidth(), contentAlignment = Alignment.Center)
+            {
                 Text(text = "EKSTRALIGA 2023\nSTATYSTYKI",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 40.sp, textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(8.dp),
-                    fontFamily = FontFamily.Monospace
+                    fontSize = 35.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth().padding(8.dp),
+                    fontFamily = FontFamily.Monospace,
                 )
+
             }
-            item {
-                Box(modifier = Modifier
-                    .padding(8.dp)
-                    .aspectRatio(2f)
-                    .clip(RoundedCornerShape(5.dp))
-                    .background(Color.Cyan)
-                    .clickable(onClick = {
-                        showPlayers()
-                    }),
-                    contentAlignment = Alignment.Center,
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(150.dp)
 
-                    ) {
+            ) {
 
-                    Row(
-                        modifier = Modifier.fillMaxHeight(),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Image(alignment = Alignment.CenterStart,
-                            painter = painterResource(R.drawable.player),
-                            contentDescription = "My Image",
-                            modifier = Modifier
-                                .weight(0.3f)
-//                                .fillMaxWidth()
-//                                .fillMaxHeight()
-                                .height(100.dp)
-                        )
-                        Text( textAlign = TextAlign.Center,
-                            text = "Zawodnicy",
-                            modifier = Modifier
-//                                .padding(16.dp)
-                                //  .fillMaxHeight()
-                                .align(Alignment.CenterVertically)
-                                .weight(0.3f),
-                            style = TextStyle(color = Color.Black, fontSize = 24.sp),
-                        )
+                item {
+                    Box(modifier = Modifier
+                        .padding(8.dp)
+                        .aspectRatio(1f)
+                        .clip(RoundedCornerShape(5.dp))
+                        .background(Color.Cyan)
+                        .clickable(onClick = {
+                            showPlayers()
+                        }),
+                        contentAlignment = Alignment.Center,
 
-//                        Box(contentAlignment = Alignment.CenterEnd,)
-//                        {
-//
-//                        }
+                        ) {
+
+                        Row(
+                            modifier = Modifier.fillMaxHeight(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+
+                            Image(
+                                painter = painterResource(R.drawable.przyklad1),
+                                contentDescription = "My Image",
+                                modifier = Modifier
+                                    .weight(weight)
+                                    .fillMaxHeight()
+                                    .height(200.dp),
+                                contentScale = ContentScale.FillHeight,
+                            )
+
+
+                            Box(contentAlignment = Alignment.Center)
+                            {
+                                Text(
+                                    text = "Gracze",
+                                    modifier = Modifier.padding(padding.dp),
+                                    style = TextStyle(color = Color.Black, fontSize = 20.sp)
+                                )
+
+                            }
+
+                        }
+
+
 
                     }
 
+                }
 
+
+                item {
+                    Box(modifier = Modifier
+                        .padding(8.dp)
+                        .aspectRatio(1f)
+                        .clip(RoundedCornerShape(5.dp))
+                        .background(Color.Cyan)
+                        .clickable(onClick = {
+                            showTeams()
+                        }),
+                        contentAlignment = Alignment.Center,
+
+                        ) {
+                        Row(
+                            modifier = Modifier.fillMaxHeight(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+
+                            Image(
+                                painter = painterResource(R.drawable.przyklad2),
+                                contentDescription = "My Image",
+                                modifier = Modifier
+                                    .weight(weight)
+                                    .fillMaxHeight()
+                                    .height(200.dp),
+                                contentScale = ContentScale.FillHeight,
+                            )
+
+
+                            Box(contentAlignment = Alignment.Center)
+                            {
+                                Text(
+                                    text = "Drużyny",
+                                    modifier = Modifier.padding(padding.dp),
+                                    style = TextStyle(color = Color.Black, fontSize = 20.sp)
+                                )
+
+                            }
+
+                        }
+
+
+                    }
 
                 }
 
-            }
+
+                item {
+                    Box(modifier = Modifier
+                        .padding(8.dp)
+                        .aspectRatio(1f)
+                        .clip(RoundedCornerShape(5.dp))
+                        .background(Color.Cyan)
+                        .clickable(onClick = {
+                            showStadiums()
+                        }),
+                        contentAlignment = Alignment.Center,
+
+                        ) {
+                        Row(
+                            modifier = Modifier.fillMaxHeight(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+
+                            Image(
+                                painter = painterResource(R.drawable.przyklad3),
+                                contentDescription = "My Image",
+                                modifier = Modifier
+                                    .weight(weight)
+                                    .fillMaxHeight()
+                                    .height(200.dp),
+                                contentScale = ContentScale.FillHeight,
+                            )
 
 
-            item {
-                Box(modifier = Modifier
-                    .padding(8.dp)
-                    .aspectRatio(2f)
-                    .clip(RoundedCornerShape(5.dp))
-                    .background(Color.Cyan)
-                    .clickable(onClick = {
-                        showTeams()
-                    }),
-                    contentAlignment = Alignment.Center,
+                            Box(contentAlignment = Alignment.Center)
+                            {
+                                Text(
+                                    text = "Stadiony",
+                                    modifier = Modifier.padding(padding.dp),
+                                    style = TextStyle(color = Color.Black, fontSize = 18.sp)
+                                )
 
-                    ) {
-                    Text(
-                        text = "Drużyny",
-                        modifier = Modifier.padding(16.dp),
-                        style = TextStyle(color = Color.Black, fontSize = 24.sp)
-                    )
+                            }
+
+                        }
+
+
+                    }
 
                 }
 
-            }
-
-
-            item {
-                Box(modifier = Modifier
-                    .padding(8.dp)
-                    .aspectRatio(2f)
-                    .clip(RoundedCornerShape(5.dp))
-                    .background(Color.Cyan)
-                    .clickable(onClick = {
-                        showStadiums()
-                    }),
-                    contentAlignment = Alignment.Center,
-
-                    ) {
-                    Text(
-                        text = "Stadiony",
-                        modifier = Modifier.padding(16.dp),
-                        style = TextStyle(color = Color.Black, fontSize = 24.sp)
-                    )
-
-                }
 
             }
-
-
         }
+
+
 
     }
 

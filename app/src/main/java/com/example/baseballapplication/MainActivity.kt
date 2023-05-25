@@ -82,8 +82,9 @@ class MainActivity : ComponentActivity() {
                     val strNumber = json.getString(0)
 
                     var statString = ""
-                    for (l in 2..36) {
+                    for (l in 2..37) {
                         statString += json.getString(l).replace(",",".")+" "
+                        Log.i("stat", json.getString(37))
                     }
                     val game = json.getInt(2)
                     val pa = json.getInt(3)

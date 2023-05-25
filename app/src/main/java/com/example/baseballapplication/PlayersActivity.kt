@@ -35,7 +35,7 @@ class PlayersActivity : AppCompatActivity(), RecyclerViewInterface {
 
     override fun onItemClick(position: Int) {
         val intent = Intent(this, PlayerDescriptionActivity::class.java)
-
+        intent.putExtra("player",playersModel[position])
 //        intent.putParcelableArrayListExtra("players",players)
         startActivity(intent);
     }

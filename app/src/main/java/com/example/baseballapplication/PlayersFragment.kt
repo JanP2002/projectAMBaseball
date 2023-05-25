@@ -1,6 +1,7 @@
 package com.example.baseballapplication
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -34,10 +35,20 @@ class PlayersFragment : Fragment(), RecyclerViewInterface {
     }
 
     override fun onItemClick(position: Int) {
-        val intent = Intent(requireActivity(), PlayerDescriptionActivity::class.java)
-        intent.putExtra("player",playersModel[position])
-//        intent.putParcelableArrayListExtra("players",players)
-        startActivity(intent);
+
+
+        if(resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
+        {
+            val intent = Intent(requireActivity(), PlayerDescriptionActivity::class.java)
+            intent.putExtra("player",playersModel[position])
+//          intent.putParcelableArrayListExtra("players",players)
+            startActivity(intent);
+        }
+        else
+        {
+            var frag = parentFragmentManager.findFragmentById(R.id.playersFragmentRight) as PlayerDescriptionFragment
+            frag.display(playersModel[position])
+        }
     }
 
 }

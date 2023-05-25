@@ -74,9 +74,9 @@ class PlayerDescriptionFragment : Fragment() {
             val imageUrl = player.image
             Picasso.get()
                 .load(imageUrl)
+                .resize(500, 500)
                 .placeholder(R.drawable.player)  // Placeholder image
                 .error(R.drawable.error)  // Error image
-                .fit()
                 .into(imageView)
 
 
@@ -84,6 +84,21 @@ class PlayerDescriptionFragment : Fragment() {
                 createFlavourText(playerName,player.batStats,player.team)
         }
         return view
+    }
+
+    fun display(player: PlayersModel)
+    {
+        val imageUrl = player.image
+        val imageView = requireView().findViewById<ImageView>(R.id.playerDescriptionImage)
+        Picasso.get()
+            .load(imageUrl)
+            .resize(300, 300)
+            .centerCrop()
+            .placeholder(R.drawable.player)  // Placeholder image
+            .error(R.drawable.error)  // Error image
+            .into(imageView)
+        requireView().findViewById<TextView>(R.id.statText).text =
+            createFlavourText(player.nameAndNumber, player.batStats, player.team)
     }
 
 

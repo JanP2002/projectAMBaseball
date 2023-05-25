@@ -29,14 +29,8 @@ class PlayersActivity : AppCompatActivity(), RecyclerViewInterface {
         recyclerView.layoutManager = LinearLayoutManager(this)
         this.supportActionBar?.title = "Zawodnicy"
 
-        var players = ArrayList<PlayersModel>()
-        val playerDB by lazy { PlayerDatabase.getDatabase(this).dao() }
-        CoroutineScope(Dispatchers.IO).launch {
-            players = playerDB.getAllPlayers() as ArrayList<PlayersModel>
-            players.sortBy { -it.stat4 }
-        }
-//        Toast.makeText(this,players.size.toString(), Toast.LENGTH_LONG).show()
-        //  setUpPlayerModels()
+
+
     }
 
     override fun onItemClick(position: Int) {
@@ -47,16 +41,4 @@ class PlayersActivity : AppCompatActivity(), RecyclerViewInterface {
     }
 
 
-//    private fun setUpPlayerModels() {
-//
-//        //tu nazwy z bazy danych??
-//        val playerName = getString(R.string.defName)
-//        val stat1 = getString(R.string.stats)
-//        val stat2 = getString(R.string.stats2)
-//        val stat3 = getString(R.string.stats3)
-//        val stat4 = getString(R.string.stats4)
-//        for (i in 0..99) {
-//            playersModel.add(PlayersModel(playerName, stat1, stat2, stat3, stat4, playerImage))
-//        }
-//    }
 }

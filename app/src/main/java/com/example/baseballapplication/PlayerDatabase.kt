@@ -6,11 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities=[PlayersModel::class],
+    entities=[PlayersModel::class, TeamModel::class],
     version=1
 )
 abstract class PlayerDatabase : RoomDatabase(){
-    abstract fun dao(): PlayerDao
+    abstract fun playerDao(): PlayerDao
+    abstract fun teamDao():TeamDao
     companion object {
         @Volatile
         private var INSTANCE: PlayerDatabase? = null

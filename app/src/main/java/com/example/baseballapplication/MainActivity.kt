@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
     val apiKEY = "AIzaSyCfkvR4qvJbbL7ObotNmf68XA1Ghc4abnM"
 
     var players = ArrayList<PlayersModel>()
-
+    var teams = ArrayList<TeamModel>()
     var jsonArray = JSONArray()
 
 
@@ -64,7 +64,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val url = "https://sheets.googleapis.com/v4/spreadsheets/"+sheetId+"/values/BAT?key="+apiKEY
         val queue = Volley.newRequestQueue(this)
-        val playerDB by lazy { PlayerDatabase.getDatabase(this).dao() }
+        val playerDB by lazy { PlayerDatabase.getDatabase(this).playerDao() }
+
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, url, null, { response ->
@@ -80,6 +81,10 @@ class MainActivity : ComponentActivity() {
                     val strName = json.getString(1)
                     val strNumber = json.getString(0)
 
+                    var statString = ""
+                    for (l in 2..36) {
+                        statString += json.getString(l).replace(",",".")+" "
+                    }
                     val game = json.getInt(2)
                     val pa = json.getInt(3)
                     val rbi = json.getInt(12)
@@ -90,7 +95,7 @@ class MainActivity : ComponentActivity() {
                     val img = json.getString(39)
 
                     val player = PlayersModel(nameFormatter(strNumber,strName),
-                        game,pa,rbi,ops,team,img)
+                        game,pa,rbi,ops,team,img, statString, false)
                     //players.add(player)
 
                     CoroutineScope(Dispatchers.IO).launch {
@@ -117,6 +122,60 @@ class MainActivity : ComponentActivity() {
 
         queue.add(jsonObjectRequest)
 
+        val teamUrl = "https://sheets.googleapis.com/v4/spreadsheets/"+sheetId+"/values/TEAM?key="+apiKEY
+        val teamDB by lazy { PlayerDatabase.getDatabase(this).teamDao() }
+
+
+        val teamJsonObjectRequest = JsonObjectRequest(
+            Request.Method.GET, teamUrl, null, { response ->
+                try {
+                    jsonArray = response.getJSONArray("values")
+                } catch (e: Exception) {
+                    Log.i("JSONExc", e.toString())
+                }
+
+                for (i in 1 until jsonArray.length()) {
+                    try {
+                        val json = jsonArray.getJSONArray(i)
+                        val teamName = json.getString(0)
+                        val wins = json.getInt(1)
+                        val losses = json.getInt(2)
+                        val logoImg = json.getString(3)
+                        val shortName = json.getString(4)
+
+                        Log.i("teamDebug",teamName)
+                        val team = TeamModel(teamName,wins,losses,logoImg,shortName,false)
+
+                        CoroutineScope(Dispatchers.IO).launch {
+                            teamDB.insertTeam(team)
+                        }
+
+
+                    } catch(e: Exception) {
+                        Log.i("DBeTeam", e.toString())
+                    }
+
+
+                }
+            },
+            { error ->
+                Log.i("DBError",error.toString())
+                // TODO: Handle error
+            }
+        )
+        CoroutineScope(Dispatchers.IO).launch {
+            teams = teamDB.getAllTeams() as ArrayList<TeamModel>
+
+            teams.sortBy { it.shortName }
+
+        }
+
+//
+//        Log.i("teams after",teams.size.toString())
+//        Log.i("teams aftercd",teams[0].imgLink)
+        queue.add(teamJsonObjectRequest)
+
+
         setContent {
             BaseballApplicationTheme {
 //                // A surface container using the 'background' color from the theme
@@ -142,6 +201,8 @@ class MainActivity : ComponentActivity() {
 
     private fun showTeams() {
         val myIntent = Intent(this, TeamsActivity::class.java)
+
+        myIntent.putParcelableArrayListExtra("teams",teams)
         //myIntent.putParcelableArrayListExtra("players",players)
         resultLauncher.launch(myIntent)
 

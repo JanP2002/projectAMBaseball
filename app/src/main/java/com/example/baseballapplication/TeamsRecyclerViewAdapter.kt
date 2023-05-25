@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 
 internal class TeamsRecyclerViewAdapter(context : Context, teamsModel:ArrayList<TeamModel>, recyclerViewInterface: RecyclerViewInterface) :
  RecyclerView.Adapter<TeamsRecyclerViewAdapter.MyViewHolder>(){
@@ -31,8 +32,16 @@ internal class TeamsRecyclerViewAdapter(context : Context, teamsModel:ArrayList<
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.imageView.setImageDrawable(AppCompatResources.getDrawable(context,teamsModel[position].img))
+
         holder.tvName.text = teamsModel[position].team
+
+        val imageUrl = teamsModel[position].imgLink
+        Picasso.get()
+            .load(imageUrl)
+            .placeholder(R.drawable.player)  // Placeholder image
+            .error(R.drawable.error)  // Error image
+            .fit()
+            .into(holder.imageView)
         //holder.imageView.setImageResource(playersModel[position].image)
     }
 

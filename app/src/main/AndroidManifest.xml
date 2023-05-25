@@ -41,6 +41,14 @@
             android:name=".PlayerDescriptionActivity"
             android:exported="false"
             android:theme="@style/Theme.BaseballApplication2" />
+        <activity
+            android:name=".TeamDescriptionActivity"
+            android:exported="false"
+            android:theme="@style/Theme.BaseballApplication2" />
+        <activity
+            android:name=".StadiumDescriptionActivity"
+            android:exported="false"
+            android:theme="@style/Theme.BaseballApplication2" />
     </application>
 
 </manifest>

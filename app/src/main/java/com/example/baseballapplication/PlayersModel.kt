@@ -8,4 +8,4 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity
-class PlayersModel (@PrimaryKey val nameAndNumber : String, val stat1: Int, val stat2: Int, val stat3: Int, val stat4 : Double, val team: String, val image : String): Parcelable
+class PlayersModel (@PrimaryKey val nameAndNumber : String, val stat1: Int, val stat2: Int, val stat3: Int, val stat4 : Double, val team: String, val image : String, val batStats:String, val isFavorite : Boolean): Parcelable

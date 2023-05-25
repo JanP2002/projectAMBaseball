@@ -12,36 +12,46 @@
         android:layout_height="match_parent"
         tools:context=".PlayerDescriptionActivity">
 
-        <LinearLayout
-            android:id="@+id/linearPlayerDescription"
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.13999999">
+            app:layout_constraintTop_toTopOf="parent">
 
-
-            <ImageView
-                android:id="@+id/playerDescriptionImage"
+            <LinearLayout
+                android:id="@+id/linearPlayerDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/player" />
+                android:orientation="vertical"
+                >
 
-            <TextView
-                android:id="@+id/statText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="TextView"
-                android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/playerDescriptionImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/statText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text=""
+                    android:textStyle="bold" />
 
 
-        </LinearLayout>
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

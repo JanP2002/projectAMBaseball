@@ -126,6 +126,7 @@ class PlayerDescriptionFragment : Fragment() {
 
         imageBtn = requireView().findViewById(R.id.playerFavButton)
         isFavorite = player.isFavorite
+        playerName = player.nameAndNumber
         imageBtn.setOnClickListener {
             val playerDB by lazy { PlayerDatabase.getDatabase(requireContext()).playerDao() }
             if (!isFavorite) {

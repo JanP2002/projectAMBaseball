@@ -67,6 +67,8 @@ class MainActivity : ComponentActivity() {
         val playerDB by lazy { PlayerDatabase.getDatabase(this).playerDao() }
 
 
+
+
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, url, null, { response ->
             try {
@@ -95,12 +97,21 @@ class MainActivity : ComponentActivity() {
                     val team = json.getString(38)
                     val img = json.getString(39)
 
-                    val player = PlayersModel(nameFormatter(strNumber,strName),
-                        game,pa,rbi,ops,team,img, statString, false)
+
                     //players.add(player)
 
+
                     CoroutineScope(Dispatchers.IO).launch {
-                        playerDB.insertPlayer(player)
+                        if (playerDB.checkIfFavorite(nameFormatter(strNumber,strName))) {
+                            val player = PlayersModel(nameFormatter(strNumber,strName),
+                                game,pa,rbi,ops,team,img, statString, true)
+                            playerDB.insertPlayer(player)
+                        } else {
+                            val player = PlayersModel(nameFormatter(strNumber,strName),
+                                game,pa,rbi,ops,team,img, statString, false)
+                            playerDB.insertPlayer(player)
+                        }
+
                     }
 
 
@@ -209,6 +220,22 @@ class MainActivity : ComponentActivity() {
 
     }
 
+    private fun showFavoritePLayers() {
+        val myIntent = Intent(this, PlayersActivity::class.java)
+        var favoritePlayers = ArrayList<PlayersModel>()
+        val playerDB by lazy { PlayerDatabase.getDatabase(this).playerDao() }
+        CoroutineScope(Dispatchers.IO).launch {
+            favoritePlayers = playerDB.getFavoritePlayers() as ArrayList<PlayersModel>
+            favoritePlayers.sortBy { it.stat4 }
+            myIntent.putParcelableArrayListExtra("players",favoritePlayers)
+            Log.i("favplayers",favoritePlayers.size.toString())
+            //myIntent.putParcelableArrayListExtra("players",players)
+            resultLauncher.launch(myIntent)
+        }
+
+
+
+    }
 
     private fun showStadiums() {
         val myIntent = Intent(this, StadiumsActivity::class.java)
@@ -216,6 +243,7 @@ class MainActivity : ComponentActivity() {
         resultLauncher.launch(myIntent)
 
     }
+
 
     fun showPlayers() {
 
@@ -397,9 +425,54 @@ class MainActivity : ComponentActivity() {
                     }
 
                 }
+                item {
+                    Box(modifier = Modifier
+                        .padding(8.dp)
+                        .aspectRatio(1f)
+                        .clip(RoundedCornerShape(5.dp))
+                        .background(Color.Cyan)
+                        .clickable(onClick = {
+                            showFavoritePLayers()
+                        }),
+                        contentAlignment = Alignment.Center,
 
+                        ) {
+                        Row(
+                            modifier = Modifier.fillMaxHeight(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+
+                            Image(
+                                painter = painterResource(R.drawable.przyklad4),
+                                contentDescription = "My Image",
+                                modifier = Modifier
+                                    .weight(weight)
+                                    .fillMaxHeight()
+                                    .height(200.dp),
+                                contentScale = ContentScale.FillHeight,
+                            )
+
+
+                            Box(contentAlignment = Alignment.Center)
+                            {
+                                Text(
+                                    text = "Ulubieni zawodnicy",
+                                    modifier = Modifier.padding(padding.dp),
+                                    style = TextStyle(color = Color.Black, fontSize = 20.sp)
+                                )
+
+                            }
+
+                        }
+
+
+                    }
+
+                }
 
             }
+
         }
 
 

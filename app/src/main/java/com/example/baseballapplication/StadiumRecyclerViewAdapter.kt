@@ -25,7 +25,7 @@ internal class StadiumRecyclerViewAdapter(context : Context, stadiumModel:ArrayL
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(context)
-        val view = inflater.inflate(R.layout.recycler_team, parent,false)
+        val view = inflater.inflate(R.layout.recycler_stadium, parent,false)
         return MyViewHolder(view, recyclerViewIf)
     }
 
@@ -45,6 +45,7 @@ internal class StadiumRecyclerViewAdapter(context : Context, stadiumModel:ArrayL
         var tvName: TextView
 
         init {
+
             tvName = itemView.findViewById(R.id.stadiumName)
 
             itemView.setOnClickListener {

@@ -44,6 +44,20 @@
                     android:text=""
                     android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/FavPrompt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Dodaj do ulubionych" />
+
+                <ImageButton
+                    android:id="@+id/playerFavButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="abc"
+                    app:srcCompat="@android:drawable/btn_star_big_off" />
+
 
 
 

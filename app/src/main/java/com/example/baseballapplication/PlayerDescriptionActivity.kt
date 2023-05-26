@@ -2,9 +2,16 @@ package com.example.baseballapplication
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlin.properties.Delegates
 
 class PlayerDescriptionActivity : AppCompatActivity() {
     var playerName = ""
@@ -42,13 +49,15 @@ class PlayerDescriptionActivity : AppCompatActivity() {
 
         var opsOPSplus = "$name ma "+stats[34]+" OPS. Dla kontekstu, jest to "
         if (stats[35].toInt()>100)
-            opsOPSplus+="o "+((stats[35].toInt())-100).toString()+" lepiej niż średni ligowy zawodnik."
+            opsOPSplus+="o "+((stats[35].toInt())-100).toString()+"% lepiej niż średni ligowy zawodnik."
         else if (stats[35].toInt()<100)
-            opsOPSplus+="o "+(100-(stats[35].toInt())).toString()+" gorzej niż średni ligowy zawodnik."
+            opsOPSplus+="o "+(100-(stats[35].toInt())).toString()+"% gorzej niż średni ligowy zawodnik."
         else
             opsOPSplus+="tak samo jak średni ligowy zawodnik."
         return IntroText+BasicStats+onBase+runsRBI+SBCS+opsOPSplus
     }
+    lateinit var imageBtn : ImageButton
+    var isFavorite =false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_player_description)
@@ -70,8 +79,33 @@ class PlayerDescriptionActivity : AppCompatActivity() {
 
             this.supportActionBar?.title = playerName
 
+
             findViewById<TextView>(R.id.statText).text = createFlavourText(playerName,player.batStats,player.team)
+            imageBtn = findViewById(R.id.playerFavButton)
+            isFavorite = player.isFavorite
+            imageBtn.setOnClickListener {
+                val playerDB by lazy { PlayerDatabase.getDatabase(this).playerDao() }
+                if (!isFavorite) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        playerDB.addToFavorites(playerName)
+                    }
+                    //change button appearance
+                    Toast.makeText(this,"Added to favorites", Toast.LENGTH_LONG).show()
+                    isFavorite=true
+                } else {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        playerDB.removeFromFavorites(playerName)
+                    }
+                    //change button appearance
+                    Toast.makeText(this,"Removed from favorites", Toast.LENGTH_LONG).show()
+                    isFavorite=false
+                }
+            }
+
+
         }
 
     }
+
+
 }

@@ -237,14 +237,6 @@ class MainActivity : ComponentActivity() {
 
     }
 
-    private fun showFavouriteTeams() {
-        val myIntent = Intent(this, TeamsActivity::class.java)
-        //TODO: blad przy uruchamianiu TeamsActivity. Trzeba cos wrzucic do ParcelableArrayListExtra, poniewaz jest wyrzucany NullPointerException
-//        myIntent.putParcelableArrayListExtra("teams",teams)
-        //myIntent.putParcelableArrayListExtra("players",players)
-        resultLauncher.launch(myIntent)
-
-    }
 
 
     private fun showFavouriteTeams() {

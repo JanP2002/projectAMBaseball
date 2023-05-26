@@ -77,7 +77,7 @@ class PlayerDescriptionFragment : Fragment() {
             val imageUrl = player.image
             Picasso.get()
                 .load(imageUrl)
-                .resize(500, 500)
+                .resize(700,500)
                 .placeholder(R.drawable.player)  // Placeholder image
                 .error(R.drawable.error)  // Error image
                 .into(imageView)
@@ -89,12 +89,14 @@ class PlayerDescriptionFragment : Fragment() {
             imageBtn = view.findViewById(R.id.playerFavButton)
             isFavorite = player.isFavorite
             imageBtn.setOnClickListener {
+
                 val playerDB by lazy { PlayerDatabase.getDatabase(requireContext()).playerDao() }
                 if (!isFavorite) {
                     CoroutineScope(Dispatchers.IO).launch {
                         playerDB.addToFavorites(playerName)
                     }
                     //change button appearance
+                    imageBtn.setImageResource(R.drawable.baseline_star_24_yellow)
                     Toast.makeText(requireContext(),"Added to favorites", Toast.LENGTH_LONG).show()
                     isFavorite=true
                 } else {
@@ -102,6 +104,7 @@ class PlayerDescriptionFragment : Fragment() {
                         playerDB.removeFromFavorites(playerName)
                     }
                     //change button appearance
+                    imageBtn.setImageResource(R.drawable.baseline_star_24)
                     Toast.makeText(requireContext(),"Removed from favorites", Toast.LENGTH_LONG).show()
                     isFavorite=false
                 }

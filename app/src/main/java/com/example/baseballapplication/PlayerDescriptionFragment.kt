@@ -39,15 +39,15 @@ class PlayerDescriptionFragment : Fragment() {
         val stats = statString.split(" ")
 
 
-        val IntroText = "$name to zawodnik drużyny $team. Nosi na koszulce numer $number.\n"
-        val BasicStats = "Zagrał w "+stats[0]+" meczach, zaliczając "+stats[1]+" podejść do bazy domowej.\n"
-        val onBase = "W tych podejściach, zdobył "+stats[4]+" hitów, "+stats[12]+" baz darmo, oraz został uderzony narzutem "+stats[17]+" razy.\n"
-        val runsRBI = "$name zdobył "+stats[3]+" obiegi. Po jego uderzeniach punkty zdobyło "+stats[10]+" zawodników\n"
+        val IntroText = "$name to zawodnik drużyny $team. Nosi na koszulce numer $number. "
+        val BasicStats = "Zagrał w "+stats[0]+" meczach, zaliczając "+stats[1]+" podejść do bazy domowej. "
+        val onBase = "W tych podejściach, zdobył "+stats[4]+" hitów, "+stats[12]+" baz darmo, oraz został uderzony narzutem "+stats[17]+" razy. "
+        val runsRBI = "$name zdobył "+stats[3]+" obiegi. Po jego uderzeniach punkty zdobyło "+stats[10]+" zawodników "
         var SBCS = "Udało mu się ukraść "+stats[18]+" baz"
         SBCS += if (stats[19].toInt()>0)
-            ", lecz został złapany przy próbie kradzieży "+stats[19]+" razy.\n"
+            ", lecz został złapany przy próbie kradzieży "+stats[19]+" razy. "
         else
-            ".\n"
+            ". "
 
 
         var opsOPSplus = "$name ma "+stats[34]+" OPS. Dla kontekstu, jest to "
@@ -88,6 +88,9 @@ class PlayerDescriptionFragment : Fragment() {
 
             imageBtn = view.findViewById(R.id.playerFavButton)
             isFavorite = player.isFavorite
+            if (isFavorite) {
+                imageBtn.setImageResource(R.drawable.baseline_star_24_yellow)
+            }
             imageBtn.setOnClickListener {
 
                 val playerDB by lazy { PlayerDatabase.getDatabase(requireContext()).playerDao() }
@@ -128,22 +131,25 @@ class PlayerDescriptionFragment : Fragment() {
             createFlavourText(player.nameAndNumber, player.batStats, player.team)
 
         imageBtn = requireView().findViewById(R.id.playerFavButton)
-        isFavorite = player.isFavorite
+//        isFavorite = player.isFavorite
+        if (player.isFavorite) {
+            imageBtn.setImageResource(R.drawable.baseline_star_24_yellow)
+        }
         playerName = player.nameAndNumber
         imageBtn.setOnClickListener {
             val playerDB by lazy { PlayerDatabase.getDatabase(requireContext()).playerDao() }
-            if (!isFavorite) {
+            if (!player.isFavorite) {
                 CoroutineScope(Dispatchers.IO).launch {
                     playerDB.addToFavorites(playerName)
                 }
-                //change button appearance
+                imageBtn.setImageResource(R.drawable.baseline_star_24_yellow)
                 Toast.makeText(requireContext(),"Added to favorites", Toast.LENGTH_LONG).show()
                 isFavorite=true
             } else {
                 CoroutineScope(Dispatchers.IO).launch {
                     playerDB.removeFromFavorites(playerName)
                 }
-                //change button appearance
+                imageBtn.setImageResource(R.drawable.baseline_star_24)
                 Toast.makeText(requireContext(),"Removed from favorites", Toast.LENGTH_LONG).show()
                 isFavorite=false
             }

@@ -11,4 +11,15 @@ interface TeamDao {
 
     @Query("SELECT * from TeamModel")
     fun getAllTeams() : List<TeamModel>
+
+    @Query("UPDATE TeamModel SET isFavorite = 1 WHERE shortName = :name")
+    fun addToFavorites(name : String)
+
+    @Query("UPDATE TeamModel SET isFavorite = 0 WHERE shortName = :name")
+    fun removeFromFavorites(name : String)
+
+    @Query("SELECT * FROM TeamModel WHERE isFavorite = 1")
+    fun getFavoriteTeams() : List<TeamModel>
+    @Query("SELECT isFavorite FROM TeamModel WHERE shortName = :name")
+    fun checkIfFavorite(name : String) : Boolean
 }

@@ -53,7 +53,7 @@ class MainActivity : ComponentActivity() {
     var players = ArrayList<PlayersModel>()
     var teams = ArrayList<TeamModel>()
     var jsonArray = JSONArray()
-
+    var stadiums = ArrayList<StadiumModel>()
 
 
     fun nameFormatter(number: String, name: String) : String {
@@ -65,9 +65,6 @@ class MainActivity : ComponentActivity() {
         val url = "https://sheets.googleapis.com/v4/spreadsheets/"+sheetId+"/values/BAT?key="+apiKEY
         val queue = Volley.newRequestQueue(this)
         val playerDB by lazy { PlayerDatabase.getDatabase(this).playerDao() }
-
-
-
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.GET, url, null, { response ->
@@ -92,15 +89,8 @@ class MainActivity : ComponentActivity() {
                     val pa = json.getInt(3)
                     val rbi = json.getInt(12)
                     val ops = json.getString(36).replace(",",".").toDouble()
-
-
                     val team = json.getString(38)
                     val img = json.getString(39)
-
-
-                    //players.add(player)
-
-
                     CoroutineScope(Dispatchers.IO).launch {
                         if (playerDB.checkIfFavorite(nameFormatter(strNumber,strName))) {
                             val player = PlayersModel(nameFormatter(strNumber,strName),
@@ -155,11 +145,17 @@ class MainActivity : ComponentActivity() {
                         val logoImg = json.getString(3)
                         val shortName = json.getString(4)
 
-                        Log.i("teamDebug",teamName)
-                        val team = TeamModel(teamName,wins,losses,logoImg,shortName,false)
+
 
                         CoroutineScope(Dispatchers.IO).launch {
-                            teamDB.insertTeam(team)
+                            if (teamDB.checkIfFavorite(shortName)) {
+                                val team = TeamModel(teamName,wins,losses,logoImg,shortName,true)
+                                teamDB.insertTeam(team)
+                            } else {
+                                val team = TeamModel(teamName,wins,losses,logoImg,shortName,false)
+                                teamDB.insertTeam(team)
+                            }
+
                         }
 
 
@@ -186,17 +182,65 @@ class MainActivity : ComponentActivity() {
 //        Log.i("teams after",teams.size.toString())
 //        Log.i("teams aftercd",teams[0].imgLink)
         queue.add(teamJsonObjectRequest)
+        val stadiumUrl = "https://sheets.googleapis.com/v4/spreadsheets/"+sheetId+"/values/STADIUM?key="+apiKEY
+        val stadiumDB by lazy { PlayerDatabase.getDatabase(this).stadiumDao() }
 
+
+        val stadiumJsonObjectRequest = JsonObjectRequest(
+            Request.Method.GET, stadiumUrl, null, { response ->
+                try {
+                    jsonArray = response.getJSONArray("values")
+                } catch (e: Exception) {
+                    Log.i("JSONExc", e.toString())
+                }
+
+                for (i in 1 until jsonArray.length()) {
+                    try {
+                        val json = jsonArray.getJSONArray(i)
+                        val fieldName = json.getString(0)
+                        val lat = json.getString(1)
+                        val ln = json.getString(2)
+                        val logoImg = json.getString(3)
+                        val city = json.getString(4)
+                        val address = json.getString(5)
+
+
+                        CoroutineScope(Dispatchers.IO).launch {
+                            val stadium = StadiumModel(fieldName,lat,ln,logoImg,city,address)
+                            stadiumDB.insertStadium(stadium)
+//                            if (teamDB.checkIfFavorite(shortName)) {
+//                                val team = TeamModel(teamName,wins,losses,logoImg,shortName,true)
+//                                teamDB.insertTeam(team)
+//                            } else {
+//                                val team = TeamModel(teamName,wins,losses,logoImg,shortName,false)
+//                                teamDB.insertTeam(team)
+//                            }
+
+                        }
+
+
+                    } catch(e: Exception) {
+                        Log.i("DBeStadium", e.toString())
+                    }
+
+
+                }
+            },
+            { error ->
+                Log.i("DBError",error.toString())
+                // TODO: Handle error
+            }
+        )
+        CoroutineScope(Dispatchers.IO).launch {
+            stadiums = stadiumDB.getAllStadiums() as ArrayList<StadiumModel>
+
+            stadiums.sortBy { it.name }
+
+        }
+        queue.add( stadiumJsonObjectRequest)
 
         setContent {
             BaseballApplicationTheme {
-//                // A surface container using the 'background' color from the theme
-//                Surface(
-//                    modifier = Modifier.fillMaxSize(),
-//                    color = MaterialTheme.colors.background
-//                ) {
-//                    Greeting("Android")
-//                }
                 MainMenu()
             }
         }
@@ -206,16 +250,11 @@ class MainActivity : ComponentActivity() {
 
     var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             result -> val data = result.data
-        //Toast.makeText(this, data?.getStringExtra("tag"), Toast.LENGTH_SHORT).show()
-
-
     }
 
     private fun showTeams() {
         val myIntent = Intent(this, TeamsActivity::class.java)
-
         myIntent.putParcelableArrayListExtra("teams",teams)
-        //myIntent.putParcelableArrayListExtra("players",players)
         resultLauncher.launch(myIntent)
 
     }
@@ -232,28 +271,26 @@ class MainActivity : ComponentActivity() {
             //myIntent.putParcelableArrayListExtra("players",players)
             resultLauncher.launch(myIntent)
         }
-
-
-
     }
-
-
-
-
-
     private fun showStadiums() {
         val myIntent = Intent(this, StadiumsActivity::class.java)
-        //myIntent.putParcelableArrayListExtra("players",players)
+        myIntent.putParcelableArrayListExtra("stadiums",stadiums)
+        Log.i("stadiums",stadiums.size.toString())
         resultLauncher.launch(myIntent)
 
     }
 
     private fun showFavouriteTeams() {
         val myIntent = Intent(this, TeamsActivity::class.java)
-        //TODO: blad przy uruchamianiu TeamsActivity. Trzeba cos wrzucic do ParcelableArrayListExtra, poniewaz jest wyrzucany NullPointerException
-//        myIntent.putParcelableArrayListExtra("teams",teams)
-        //myIntent.putParcelableArrayListExtra("players",players)
-        resultLauncher.launch(myIntent)
+        var favoriteTeams = ArrayList<TeamModel>()
+        val teamsDB by lazy { PlayerDatabase.getDatabase(this).teamDao() }
+        CoroutineScope(Dispatchers.IO).launch {
+            favoriteTeams = teamsDB.getFavoriteTeams() as ArrayList<TeamModel>
+            favoriteTeams.sortBy { it.shortName }
+            myIntent.putParcelableArrayListExtra("teams",favoriteTeams)
+
+            resultLauncher.launch(myIntent)
+        }
 
     }
 

@@ -17,8 +17,8 @@ class TeamsActivity : AppCompatActivity(), RecyclerViewInterface {
     var teamsModel = ArrayList<TeamModel>()
 
 
-    val playerDB by lazy { PlayerDatabase.getDatabase(this).playerDao() }
-    val teamsDB by lazy {PlayerDatabase.getDatabase(this).teamDao()}
+//    val playerDB by lazy { PlayerDatabase.getDatabase(this).playerDao() }
+//    val teamsDB by lazy {PlayerDatabase.getDatabase(this).teamDao()}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_teams)
@@ -37,12 +37,16 @@ class TeamsActivity : AppCompatActivity(), RecyclerViewInterface {
 
     override fun onItemClick(position: Int) {
 
-        val intent = Intent(this, PlayersActivity::class.java)
-        CoroutineScope(Dispatchers.IO).launch {
-            val teamPlayers = playerDB.getTeamPlayers(teamsModel[position].shortName) as ArrayList<PlayersModel>
-            intent.putParcelableArrayListExtra("players",teamPlayers)
-            startActivity(intent)
-        }
+//        val intent = Intent(this, PlayersActivity::class.java)
+//        CoroutineScope(Dispatchers.IO).launch {
+//            val teamPlayers = playerDB.getTeamPlayers(teamsModel[position].shortName) as ArrayList<PlayersModel>
+//            intent.putParcelableArrayListExtra("players",teamPlayers)
+//            startActivity(intent)
+//        }
+        val intent = Intent(this,TeamDescriptionActivity::class.java )
+        intent.putExtra("team",teamsModel[position])
+        startActivity(intent)
+
 
     }
 }

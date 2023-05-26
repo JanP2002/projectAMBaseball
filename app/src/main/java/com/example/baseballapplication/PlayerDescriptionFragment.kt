@@ -5,16 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class PlayerDescriptionFragment : Fragment() {
 
     var playerName = ""
+    lateinit var imageBtn : ImageButton
+    var isFavorite =false
     fun createFlavourText(nameString : String, statString : String, shortenedTeam : String) : String {
         val firstSpaceInName = nameString.indexOf(' ',0)
         val name = nameString.takeLast(nameString.length-firstSpaceInName)
@@ -49,9 +52,9 @@ class PlayerDescriptionFragment : Fragment() {
 
         var opsOPSplus = "$name ma "+stats[34]+" OPS. Dla kontekstu, jest to "
         if (stats[35].toInt()>100)
-            opsOPSplus+="o "+((stats[35].toInt())-100).toString()+" lepiej niż średni ligowy zawodnik."
+            opsOPSplus+="o "+((stats[35].toInt())-100).toString()+"% lepiej niż średni ligowy zawodnik."
         else if (stats[35].toInt()<100)
-            opsOPSplus+="o "+(100-(stats[35].toInt())).toString()+" gorzej niż średni ligowy zawodnik."
+            opsOPSplus+="o "+(100-(stats[35].toInt())).toString()+"% gorzej niż średni ligowy zawodnik."
         else
             opsOPSplus+="tak samo jak średni ligowy zawodnik."
         return IntroText+BasicStats+onBase+runsRBI+SBCS+opsOPSplus
@@ -82,6 +85,27 @@ class PlayerDescriptionFragment : Fragment() {
 
             view.findViewById<TextView>(R.id.statText).text =
                 createFlavourText(playerName,player.batStats,player.team)
+
+            imageBtn = view.findViewById(R.id.playerFavButton)
+            isFavorite = player.isFavorite
+            imageBtn.setOnClickListener {
+                val playerDB by lazy { PlayerDatabase.getDatabase(requireContext()).playerDao() }
+                if (!isFavorite) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        playerDB.addToFavorites(playerName)
+                    }
+                    //change button appearance
+                    Toast.makeText(requireContext(),"Added to favorites", Toast.LENGTH_LONG).show()
+                    isFavorite=true
+                } else {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        playerDB.removeFromFavorites(playerName)
+                    }
+                    //change button appearance
+                    Toast.makeText(requireContext(),"Removed from favorites", Toast.LENGTH_LONG).show()
+                    isFavorite=false
+                }
+            }
         }
         return view
     }
@@ -99,6 +123,27 @@ class PlayerDescriptionFragment : Fragment() {
             .into(imageView)
         requireView().findViewById<TextView>(R.id.statText).text =
             createFlavourText(player.nameAndNumber, player.batStats, player.team)
+
+        imageBtn = requireView().findViewById(R.id.playerFavButton)
+        isFavorite = player.isFavorite
+        imageBtn.setOnClickListener {
+            val playerDB by lazy { PlayerDatabase.getDatabase(requireContext()).playerDao() }
+            if (!isFavorite) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    playerDB.addToFavorites(playerName)
+                }
+                //change button appearance
+                Toast.makeText(requireContext(),"Added to favorites", Toast.LENGTH_LONG).show()
+                isFavorite=true
+            } else {
+                CoroutineScope(Dispatchers.IO).launch {
+                    playerDB.removeFromFavorites(playerName)
+                }
+                //change button appearance
+                Toast.makeText(requireContext(),"Removed from favorites", Toast.LENGTH_LONG).show()
+                isFavorite=false
+            }
+        }
     }
 
 

@@ -247,14 +247,6 @@ class MainActivity : ComponentActivity() {
     }
 
 
-    private fun showFavouriteTeams() {
-        val myIntent = Intent(this, TeamsActivity::class.java)
-        //TODO: blad przy uruchamianiu TeamsActivity. Trzeba cos wrzucic do ParcelableArrayListExtra, poniewaz jest wyrzucany NullPointerException
-//        myIntent.putParcelableArrayListExtra("teams",teams)
-        //myIntent.putParcelableArrayListExtra("players",players)
-        resultLauncher.launch(myIntent)
-
-    }
 
 
     private fun showStadiums() {
@@ -537,55 +529,6 @@ class MainActivity : ComponentActivity() {
                     }
 
                 }
-
-
-                item {
-                    Box(modifier = Modifier
-                        .padding(8.dp)
-                        .aspectRatio(1f)
-                        .clip(RoundedCornerShape(5.dp))
-                        .background(Color.Cyan)
-                        .clickable(onClick = {
-                            showFavouriteTeams()
-                        }),
-                        contentAlignment = Alignment.Center,
-
-                        ) {
-
-                        Row(
-                            modifier = Modifier.fillMaxHeight(),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Box(contentAlignment = Alignment.Center)
-                            {
-                                Text(
-                                    text = "⭐",
-                                    modifier = Modifier.padding(padding.dp),
-                                    style = TextStyle(color = Color.Black, fontSize = 60.sp)
-                                )
-
-                            }
-
-
-                            Box(contentAlignment = Alignment.Center)
-                            {
-                                Text(
-                                    text = "Ulubione Druzyny",
-                                    modifier = Modifier.padding(padding.dp),
-                                    style = TextStyle(color = Color.Black, fontSize = 20.sp)
-                                )
-
-                            }
-
-                        }
-
-
-
-                    }
-
-                }
-
 
             }
 

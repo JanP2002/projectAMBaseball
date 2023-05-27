@@ -35,8 +35,6 @@ class PlayersFragment : Fragment(), RecyclerViewInterface {
     }
 
     override fun onItemClick(position: Int) {
-
-
         if(resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
         {
             val intent = Intent(requireActivity(), PlayerDescriptionActivity::class.java)

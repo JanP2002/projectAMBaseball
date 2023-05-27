@@ -150,6 +150,9 @@ class PlayerDescriptionFragment : Fragment() {
         if (player.isFavorite) {
             imageBtn.setImageResource(R.drawable.baseline_star_24_yellow)
         }
+        else {
+            imageBtn.setImageResource(R.drawable.baseline_star_24)
+        }
         playerName = player.nameAndNumber
         imageBtn.setOnClickListener {
             val playerDB by lazy { PlayerDatabase.getDatabase(requireContext()).playerDao() }

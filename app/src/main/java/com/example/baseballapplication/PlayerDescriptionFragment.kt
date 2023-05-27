@@ -86,11 +86,17 @@ class PlayerDescriptionFragment : Fragment() {
             view.findViewById<TextView>(R.id.statText).text =
                 createFlavourText(playerName,player.batStats,player.team)
 
+            val favPrompt = view.findViewById<TextView>(R.id.FavPrompt)
+            val favButton = view.findViewById<ImageButton>(R.id.playerFavButton)
+            favPrompt.visibility = View.VISIBLE
+            favButton.visibility = View.VISIBLE
+
             imageBtn = view.findViewById(R.id.playerFavButton)
             isFavorite = player.isFavorite
             if (isFavorite) {
                 imageBtn.setImageResource(R.drawable.baseline_star_24_yellow)
             }
+
             imageBtn.setOnClickListener {
 
                 val playerDB by lazy { PlayerDatabase.getDatabase(requireContext()).playerDao() }
@@ -123,6 +129,10 @@ class PlayerDescriptionFragment : Fragment() {
 
     fun display(player: PlayersModel)
     {
+        val favPrompt = requireView().findViewById<TextView>(R.id.FavPrompt)
+        val favButton = requireView().findViewById<ImageButton>(R.id.playerFavButton)
+        favPrompt.visibility = View.VISIBLE
+        favButton.visibility = View.VISIBLE
         val imageUrl = player.image
         val imageView = requireView().findViewById<ImageView>(R.id.playerDescriptionImage)
         Picasso.get()

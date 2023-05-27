@@ -1,12 +1,12 @@
 package com.example.baseballapplication
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -111,6 +111,11 @@ class PlayerDescriptionFragment : Fragment() {
                     Toast.makeText(requireContext(),"Removed from favorites", Toast.LENGTH_LONG).show()
                     isFavorite=false
                 }
+                //Powrot do MainActivity
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                //Usuwamy wszystkie aktywnosci ze stosu i uruchamiamy nowa kopie MainActivity
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
             }
         }
         return view
@@ -153,6 +158,12 @@ class PlayerDescriptionFragment : Fragment() {
                 Toast.makeText(requireContext(),"Removed from favorites", Toast.LENGTH_LONG).show()
                 isFavorite=false
             }
+            //Powrot do MainActivity
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            //Usuwamy wszystkie aktywnosci ze stosu i uruchamiamy nowa kopie MainActivity
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+
         }
     }
 

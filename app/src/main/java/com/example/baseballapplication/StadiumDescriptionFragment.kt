@@ -71,7 +71,7 @@ class StadiumDescriptionFragment : Fragment() {
         val image = stadium.imgLink
         Picasso.get()
             .load(image)
-            .resize(300, 300)
+            .resize(350, 350)
             .centerCrop()
             .placeholder(R.drawable.player)  // Placeholder image
             .error(R.drawable.error)  // Error image

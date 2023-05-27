@@ -52,7 +52,7 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Pokaż na mapie!!"
+                    android:text="Pokaż na mapie!"
                     android:textColor="@color/white"
                     android:visibility="gone"/>
             </LinearLayout>

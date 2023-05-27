@@ -18,7 +18,8 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.BaseballApplication">
+            android:theme="@style/Theme.BaseballApplication"
+            android:background="@color/dark_grey">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

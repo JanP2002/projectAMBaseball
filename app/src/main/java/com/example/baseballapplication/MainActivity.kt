@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role.Companion.Image
@@ -39,6 +41,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.example.baseballapplication.ui.theme.BaseballApplicationTheme
+import com.example.baseballapplication.ui.theme.MenuColor
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -62,6 +65,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val root = findViewById<View>(android.R.id.content)
+        root.setBackgroundColor(Color.Black.toArgb())
         val url = "https://sheets.googleapis.com/v4/spreadsheets/"+sheetId+"/values/BAT?key="+apiKEY
         val queue = Volley.newRequestQueue(this)
         val playerDB by lazy { PlayerDatabase.getDatabase(this).playerDao() }
@@ -316,7 +321,7 @@ class MainActivity : ComponentActivity() {
     fun MainMenu() {
         val weight = 0.35f
         val padding = 5
-        Column (Modifier.background(color = Color.hsv(0f,0f,0.14f))) {
+        Column (Modifier.background(color = MenuColor)) {
 
             Box( Modifier.fillMaxWidth(), contentAlignment = Alignment.Center)
             {

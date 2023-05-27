@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlayerDescriptionFragment">
+    tools:context=".PlayerDescriptionFragment"
+    android:background="@color/dark_grey">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/playerDescriptionLayout"
@@ -42,6 +43,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text=""
+                    android:textColor="@color/white"
                     android:layout_marginVertical="20dp"
                     android:layout_marginHorizontal="40dp"
                     android:textStyle="bold" />
@@ -51,6 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     android:text="Dodaj do ulubionych"
                     android:visibility="gone"/>
 

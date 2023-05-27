@@ -45,7 +45,7 @@ class TeamDescriptionFragment : Fragment() {
                 .into(image)
             val w = t.wins
             val l = t.losses
-            loseWonText.text = "$w wygranych, $l przegranych"
+            loseWonText.text = "$w wygranych, $l przegranych w sezonie 2023"
             seePlayersButton.setOnClickListener {
                 val intent = Intent(requireContext(), PlayersActivity::class.java)
                 val playerDB by lazy { PlayerDatabase.getDatabase(requireContext()).playerDao() }

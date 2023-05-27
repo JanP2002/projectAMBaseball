@@ -320,7 +320,7 @@ class MainActivity : ComponentActivity() {
 
             Box( Modifier.fillMaxWidth(), contentAlignment = Alignment.Center)
             {
-                Text(text = "EKSTRALIGA 2023\nSTATYSTYKI",
+                Text(text = "EKSTRALIGA 2023 STATYSTYKI",
                     fontWeight = FontWeight.Bold,
                     fontSize = 35.sp,
                     textAlign = TextAlign.Center,
@@ -347,14 +347,26 @@ class MainActivity : ComponentActivity() {
 
                         ) {
 
-                        Row(
+                        Column(
                             modifier = Modifier.fillMaxHeight(),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
 
+
+
+
+                            Box(contentAlignment = Alignment.Center)
+                            {
+                                Text(
+                                    text = "Zawodnicy",
+                                    modifier = Modifier.padding(padding.dp),
+                                    style = TextStyle(color = Color.Black, fontSize = 20.sp)
+                                )
+
+                            }
                             Image(
-                                painter = painterResource(R.drawable.przyklad1),
+                                painter = painterResource(R.drawable.player),
                                 contentDescription = "My Image",
                                 modifier = Modifier
                                     .weight(weight)
@@ -362,17 +374,6 @@ class MainActivity : ComponentActivity() {
                                     .height(200.dp),
                                 contentScale = ContentScale.FillHeight,
                             )
-
-
-                            Box(contentAlignment = Alignment.Center)
-                            {
-                                Text(
-                                    text = "Gracze",
-                                    modifier = Modifier.padding(padding.dp),
-                                    style = TextStyle(color = Color.Black, fontSize = 20.sp)
-                                )
-
-                            }
 
                         }
 
@@ -395,21 +396,13 @@ class MainActivity : ComponentActivity() {
                         contentAlignment = Alignment.Center,
 
                         ) {
-                        Row(
+                        Column(
                             modifier = Modifier.fillMaxHeight(),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
 
-                            Image(
-                                painter = painterResource(R.drawable.stalkutno),
-                                contentDescription = "My Image",
-                                modifier = Modifier
-                                    .weight(weight)
-                                    .fillMaxHeight()
-                                    .height(200.dp),
-                                contentScale = ContentScale.FillHeight,
-                            )
+
 
 
                             Box(contentAlignment = Alignment.Center)
@@ -421,6 +414,15 @@ class MainActivity : ComponentActivity() {
                                 )
 
                             }
+                            Image(
+                                painter = painterResource(R.drawable.silesiarybnik),
+                                contentDescription = "My Image",
+                                modifier = Modifier
+                                    .weight(weight)
+                                    .fillMaxHeight()
+                                    .height(200.dp),
+                                contentScale = ContentScale.FillHeight,
+                            )
 
                         }
 
@@ -442,23 +444,11 @@ class MainActivity : ComponentActivity() {
                         contentAlignment = Alignment.Center,
 
                         ) {
-                        Row(
+                        Column(
                             modifier = Modifier.fillMaxHeight(),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-
-                            Image(
-                                painter = painterResource(R.drawable.przyklad3),
-                                contentDescription = "My Image",
-                                modifier = Modifier
-                                    .weight(weight)
-                                    .fillMaxHeight()
-                                    .height(200.dp),
-                                contentScale = ContentScale.FillHeight,
-                            )
-
-
                             Box(contentAlignment = Alignment.Center)
                             {
                                 Text(
@@ -468,6 +458,18 @@ class MainActivity : ComponentActivity() {
                                 )
 
                             }
+                            Image(
+                                painter = painterResource(R.drawable.boisko),
+                                contentDescription = "My Image",
+                                modifier = Modifier
+                                    .weight(weight)
+                                    .fillMaxHeight()
+                                    .height(200.dp),
+                                contentScale = ContentScale.FillHeight,
+                            )
+
+
+
 
                         }
 
@@ -487,12 +489,25 @@ class MainActivity : ComponentActivity() {
                         contentAlignment = Alignment.Center,
 
                         ) {
-                        Row(
+
+                        Column(
                             modifier = Modifier.fillMaxHeight(),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
 
+
+
+
+                            Box(contentAlignment = Alignment.Center)
+                            {
+                                Text(
+                                    text = "Ulubieni zawodnicy",
+                                    modifier = Modifier.padding(padding.dp).align(Alignment.Center),
+                                    style = TextStyle(color = Color.Black, fontSize = 19.sp)
+                                )
+
+                            }
                             Image(
                                 painter = painterResource(R.drawable.przyklad4),
                                 contentDescription = "My Image",
@@ -503,18 +518,8 @@ class MainActivity : ComponentActivity() {
                                 contentScale = ContentScale.FillHeight,
                             )
 
-
-                            Box(contentAlignment = Alignment.Center)
-                            {
-                                Text(
-                                    text = "Ulubieni zawodnicy",
-                                    modifier = Modifier.padding(padding.dp),
-                                    style = TextStyle(color = Color.Black, fontSize = 20.sp)
-                                )
-
-                            }
-
                         }
+
 
 
                     }
@@ -534,11 +539,23 @@ class MainActivity : ComponentActivity() {
 
                         ) {
 
-                        Row(
+                        Column(
                             modifier = Modifier.fillMaxHeight(),
-                            horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
+
+
+
+                            Box(contentAlignment = Alignment.Center)
+                            {
+                                Text(
+                                    text = "Ulubione Drużyny",
+                                    modifier = Modifier.padding(padding.dp),
+                                    style = TextStyle(color = Color.Black, fontSize = 20.sp)
+                                )
+
+                            }
                             Box(contentAlignment = Alignment.Center)
                             {
                                 Text(
@@ -548,18 +565,6 @@ class MainActivity : ComponentActivity() {
                                 )
 
                             }
-
-
-                            Box(contentAlignment = Alignment.Center)
-                            {
-                                Text(
-                                    text = "Ulubione Druzyny",
-                                    modifier = Modifier.padding(padding.dp),
-                                    style = TextStyle(color = Color.Black, fontSize = 20.sp)
-                                )
-
-                            }
-
                         }
 
 

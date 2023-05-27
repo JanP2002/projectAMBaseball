@@ -1,6 +1,7 @@
 package com.example.baseballapplication
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -33,9 +34,19 @@ class StadiumsFragment : Fragment(), RecyclerViewInterface {
     }
 
     override fun onItemClick(position: Int) {
-        val intent = Intent(requireContext(), StadiumDescriptionActivity::class.java )
-        intent.putExtra("stadium",stadiums[position])
-        startActivity(intent)
+
+
+        if(resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
+        {
+            val intent = Intent(requireContext(), StadiumDescriptionActivity::class.java )
+            intent.putExtra("stadium",stadiums[position])
+            startActivity(intent)
+        }
+        else
+        {
+            var frag = parentFragmentManager.findFragmentById(R.id.stadiumsFragmentRight) as StadiumDescriptionFragment
+            frag.display(stadiums[position])
+        }
     }
 
 

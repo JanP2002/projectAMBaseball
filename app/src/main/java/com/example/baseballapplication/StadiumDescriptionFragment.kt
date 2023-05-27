@@ -33,6 +33,9 @@ class StadiumDescriptionFragment : Fragment() {
         val button = view.findViewById<Button>(R.id.FindWayToStadiumButton)
 
         if (s!=null) {
+            image.visibility = View.VISIBLE
+            addressText.visibility = View.VISIBLE
+            button.visibility = View.VISIBLE
             Picasso.get()
                 .load(s.imgLink)
                 .placeholder(R.drawable.player)  // Placeholder image
@@ -54,6 +57,39 @@ class StadiumDescriptionFragment : Fragment() {
 
         }
         return view
+    }
+
+    fun display(stadium: StadiumModel)
+    {
+        val imageView = requireView().findViewById<ImageView>(R.id.bigStadium)
+        val addressText = requireView().findViewById<TextView>(R.id.stadiumAddress)
+        val button = requireView().findViewById<Button>(R.id.FindWayToStadiumButton)
+        imageView.visibility = View.VISIBLE
+        addressText.visibility = View.VISIBLE
+        button.visibility = View.VISIBLE
+
+        val image = stadium.imgLink
+        Picasso.get()
+            .load(image)
+            .resize(300, 300)
+            .centerCrop()
+            .placeholder(R.drawable.player)  // Placeholder image
+            .error(R.drawable.error)  // Error image
+            .into(imageView)
+        val lat = stadium.lt
+        val long = stadium.ln
+        addressText.text = "Adres:\n${stadium.address}, ${stadium.city}"
+        button.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                val gmmIntentUri = Uri.parse("google.streetview:cbll=$lat,$long")
+
+                val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+                mapIntent.setPackage("com.google.android.apps.maps")
+                startActivity(mapIntent)
+
+            }
+        }
+
     }
 
 

@@ -16,6 +16,9 @@ class TeamDescriptionActivity : AppCompatActivity() {
 
 
 
-
+        val team = intent.getParcelableExtra<TeamModel>("team")
+        if (team != null) {
+            this.supportActionBar?.title = team.team
+        }
     }
 }

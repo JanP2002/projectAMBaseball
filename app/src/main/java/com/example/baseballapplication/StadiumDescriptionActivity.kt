@@ -12,6 +12,10 @@ class StadiumDescriptionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_stadium_description)
 
 
+        val stadium = intent.getParcelableExtra<StadiumModel>("stadium")
+        if (stadium != null) {
+            this.supportActionBar?.title = stadium.name
+        }
     }
 
 }

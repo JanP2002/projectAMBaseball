@@ -316,7 +316,7 @@ class MainActivity : ComponentActivity() {
     fun MainMenu() {
         val weight = 0.35f
         val padding = 5
-        Column {
+        Column (Modifier.background(color = Color.hsv(0f,0f,0.14f))) {
 
             Box( Modifier.fillMaxWidth(), contentAlignment = Alignment.Center)
             {
@@ -324,6 +324,7 @@ class MainActivity : ComponentActivity() {
                     fontWeight = FontWeight.Bold,
                     fontSize = 35.sp,
                     textAlign = TextAlign.Center,
+                    color = Color.White,
                     modifier = Modifier.fillMaxWidth().padding(8.dp),
                     fontFamily = FontFamily.Monospace,
                 )
@@ -339,7 +340,7 @@ class MainActivity : ComponentActivity() {
                         .padding(8.dp)
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(5.dp))
-                        .background(Color.Cyan)
+                        .background(Color.hsv(0f,0f,0.29f))
                         .clickable(onClick = {
                             showPlayers()
                         }),
@@ -361,7 +362,7 @@ class MainActivity : ComponentActivity() {
                                 Text(
                                     text = "Zawodnicy",
                                     modifier = Modifier.padding(padding.dp),
-                                    style = TextStyle(color = Color.Black, fontSize = 20.sp)
+                                    style = TextStyle(color = Color.White, fontSize = 20.sp)
                                 )
 
                             }
@@ -389,7 +390,7 @@ class MainActivity : ComponentActivity() {
                         .padding(8.dp)
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(5.dp))
-                        .background(Color.Cyan)
+                        .background(Color.hsv(0f,0f,0.29f))
                         .clickable(onClick = {
                             showTeams()
                         }),
@@ -410,7 +411,7 @@ class MainActivity : ComponentActivity() {
                                 Text(
                                     text = "Drużyny",
                                     modifier = Modifier.padding(padding.dp),
-                                    style = TextStyle(color = Color.Black, fontSize = 20.sp)
+                                    style = TextStyle(color = Color.White, fontSize = 20.sp)
                                 )
 
                             }
@@ -437,7 +438,7 @@ class MainActivity : ComponentActivity() {
                         .padding(8.dp)
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(5.dp))
-                        .background(Color.Cyan)
+                        .background(Color.hsv(0f,0f,0.29f))
                         .clickable(onClick = {
                             showStadiums()
                         }),
@@ -454,7 +455,7 @@ class MainActivity : ComponentActivity() {
                                 Text(
                                     text = "Stadiony",
                                     modifier = Modifier.padding(padding.dp),
-                                    style = TextStyle(color = Color.Black, fontSize = 18.sp)
+                                    style = TextStyle(color = Color.White, fontSize = 18.sp)
                                 )
 
                             }
@@ -482,7 +483,7 @@ class MainActivity : ComponentActivity() {
                         .padding(8.dp)
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(5.dp))
-                        .background(Color.Cyan)
+                        .background(Color.hsv(0f,0f,0.29f))
                         .clickable(onClick = {
                             showFavoritePLayers()
                         }),
@@ -504,7 +505,7 @@ class MainActivity : ComponentActivity() {
                                 Text(
                                     text = "Ulubieni zawodnicy",
                                     modifier = Modifier.padding(padding.dp).align(Alignment.Center),
-                                    style = TextStyle(color = Color.Black, fontSize = 19.sp)
+                                    style = TextStyle(color = Color.White, fontSize = 19.sp)
                                 )
 
                             }
@@ -531,7 +532,7 @@ class MainActivity : ComponentActivity() {
                         .padding(8.dp)
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(5.dp))
-                        .background(Color.Cyan)
+                        .background(Color.hsv(0f,0f,0.29f))
                         .clickable(onClick = {
                             showFavouriteTeams()
                         }),
@@ -547,12 +548,12 @@ class MainActivity : ComponentActivity() {
 
 
 
-                            Box(contentAlignment = Alignment.Center)
+                            Box(contentAlignment = Alignment.TopCenter)
                             {
                                 Text(
                                     text = "Ulubione Drużyny",
                                     modifier = Modifier.padding(padding.dp),
-                                    style = TextStyle(color = Color.Black, fontSize = 20.sp)
+                                    style = TextStyle(color = Color.White, fontSize = 20.sp)
                                 )
 
                             }

@@ -12,41 +12,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class TeamsActivity : AppCompatActivity(), RecyclerViewInterface {
-
-    var teamsModel = ArrayList<TeamModel>()
+class TeamsActivity : AppCompatActivity() {
 
 
-//    val playerDB by lazy { PlayerDatabase.getDatabase(this).playerDao() }
-//    val teamsDB by lazy {PlayerDatabase.getDatabase(this).teamDao()}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_teams)
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerTeams)
 
-
-
-        teamsModel = intent.getParcelableArrayListExtra("teams")!!
-
-        val adapter = TeamsRecyclerViewAdapter(this,teamsModel,this)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
         this.supportActionBar?.title = "Drużyny"
 
     }
 
-    override fun onItemClick(position: Int) {
-
-//        val intent = Intent(this, PlayersActivity::class.java)
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val teamPlayers = playerDB.getTeamPlayers(teamsModel[position].shortName) as ArrayList<PlayersModel>
-//            intent.putParcelableArrayListExtra("players",teamPlayers)
-//            startActivity(intent)
-//        }
-        val intent = Intent(this,TeamDescriptionActivity::class.java )
-        intent.putExtra("team",teamsModel[position])
-        startActivity(intent)
-
-
-    }
 }

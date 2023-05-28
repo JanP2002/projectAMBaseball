@@ -2,6 +2,7 @@ package com.example.baseballapplication
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -55,7 +56,10 @@ class TeamDescriptionFragment : Fragment() {
                 val playerDB by lazy { PlayerDatabase.getDatabase(requireContext()).playerDao() }
                 CoroutineScope(Dispatchers.IO).launch {
                     val teamPlayers = playerDB.getTeamPlayers(t.shortName) as ArrayList<PlayersModel>
+                    intent.putExtra("mode", MainActivity.teamMode)
                     intent.putParcelableArrayListExtra("players",teamPlayers)
+                    intent.putExtra("mode", MainActivity.teamMode)
+                    intent.putExtra("teamName", t.team)
                     startActivity(intent)
                 }
             }
@@ -128,6 +132,8 @@ class TeamDescriptionFragment : Fragment() {
             CoroutineScope(Dispatchers.IO).launch {
                 val teamPlayers = playerDB.getTeamPlayers(team.shortName) as ArrayList<PlayersModel>
                 intent.putParcelableArrayListExtra("players",teamPlayers)
+                intent.putExtra("mode", MainActivity.teamMode)
+                intent.putExtra("teamName", team.team)
                 startActivity(intent)
             }
         }

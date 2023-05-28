@@ -57,6 +57,11 @@ class MainActivity : ComponentActivity() {
     var teams = ArrayList<TeamModel>()
     var jsonArray = JSONArray()
     var stadiums = ArrayList<StadiumModel>()
+   companion object{
+       const val favMode = "favourite"
+       const val teamMode = "team"
+       const val allMode = "all"
+   }
 
 
     fun nameFormatter(number: String, name: String) : String {
@@ -183,9 +188,6 @@ class MainActivity : ComponentActivity() {
 
         }
 
-//
-//        Log.i("teams after",teams.size.toString())
-//        Log.i("teams aftercd",teams[0].imgLink)
         queue.add(teamJsonObjectRequest)
         val stadiumUrl = "https://sheets.googleapis.com/v4/spreadsheets/"+sheetId+"/values/STADIUM?key="+apiKEY
         val stadiumDB by lazy { PlayerDatabase.getDatabase(this).stadiumDao() }
@@ -213,13 +215,6 @@ class MainActivity : ComponentActivity() {
                         CoroutineScope(Dispatchers.IO).launch {
                             val stadium = StadiumModel(fieldName,lat,ln,logoImg,city,address)
                             stadiumDB.insertStadium(stadium)
-//                            if (teamDB.checkIfFavorite(shortName)) {
-//                                val team = TeamModel(teamName,wins,losses,logoImg,shortName,true)
-//                                teamDB.insertTeam(team)
-//                            } else {
-//                                val team = TeamModel(teamName,wins,losses,logoImg,shortName,false)
-//                                teamDB.insertTeam(team)
-//                            }
 
                         }
 
@@ -259,6 +254,7 @@ class MainActivity : ComponentActivity() {
 
     private fun showTeams() {
         val myIntent = Intent(this, TeamsActivity::class.java)
+        myIntent.putExtra("mode", allMode)
         myIntent.putParcelableArrayListExtra("teams",teams)
         resultLauncher.launch(myIntent)
 
@@ -266,6 +262,7 @@ class MainActivity : ComponentActivity() {
 
     private fun showFavoritePLayers() {
         val myIntent = Intent(this, PlayersActivity::class.java)
+        myIntent.putExtra("mode", favMode)
         var favoritePlayers = ArrayList<PlayersModel>()
         val playerDB by lazy { PlayerDatabase.getDatabase(this).playerDao() }
         CoroutineScope(Dispatchers.IO).launch {
@@ -287,6 +284,7 @@ class MainActivity : ComponentActivity() {
 
     private fun showFavouriteTeams() {
         val myIntent = Intent(this, TeamsActivity::class.java)
+        myIntent.putExtra("mode", favMode)
         var favoriteTeams = ArrayList<TeamModel>()
         val teamsDB by lazy { PlayerDatabase.getDatabase(this).teamDao() }
         CoroutineScope(Dispatchers.IO).launch {
@@ -301,18 +299,11 @@ class MainActivity : ComponentActivity() {
 
 
     fun showPlayers() {
-
-//        val bundle = Bundle()
-//        bundle.putParcelableArrayList("players",players)
-
         val intent = Intent(this, PlayersActivity::class.java)
-//        intent.putExtra("bundle",bundle)
-//        intent.putExtra("myWorth",0)
+        intent.putExtra("mode", allMode)
         intent.putParcelableArrayListExtra("players",players)
         startActivity(intent)
 
-//        val intent = Intent(this, TestActivity::class.java)
-//        startActivity(intent);
 
     }
 
@@ -517,11 +508,6 @@ class MainActivity : ComponentActivity() {
                             }
                             Box(contentAlignment = Alignment.Center)
                             {
-//                                Text(
-//                                    text = "⭐",
-//                                    modifier = Modifier.padding(padding.dp).height(200.dp),
-//                                    style = TextStyle(color = Color.Black, fontSize = 60.sp)
-//                                )
                                 Image(
                                     painter = painterResource(R.drawable.baseline_star_24_yellow),
                                     contentDescription = "My Image",

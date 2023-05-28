@@ -19,7 +19,10 @@ class TeamsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_teams)
 
-        this.supportActionBar?.title = "Drużyny"
+        when(intent.getStringExtra("mode")) {
+            MainActivity.favMode -> this.supportActionBar?.title = "Ulubione Drużyny"
+            else -> this.supportActionBar?.title = "Drużyny"
+        }
 
     }
 

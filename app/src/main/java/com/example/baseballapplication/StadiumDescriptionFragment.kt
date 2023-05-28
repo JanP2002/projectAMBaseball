@@ -36,11 +36,13 @@ class StadiumDescriptionFragment : Fragment() {
             image.visibility = View.VISIBLE
             addressText.visibility = View.VISIBLE
             button.visibility = View.VISIBLE
+            val titleTxt = view.findViewById<TextView>(R.id.titleTxt)
+            titleTxt.text = s.name
             Picasso.get()
                 .load(s.imgLink)
+                .resize(800, 700)
                 .placeholder(R.drawable.player)  // Placeholder image
                 .error(R.drawable.error)  // Error image
-                .fit()
                 .into(image)
             val lat = s.lt
             val long = s.ln
@@ -67,11 +69,13 @@ class StadiumDescriptionFragment : Fragment() {
         imageView.visibility = View.VISIBLE
         addressText.visibility = View.VISIBLE
         button.visibility = View.VISIBLE
+        val titleTxt = requireView().findViewById<TextView>(R.id.titleTxt)
+        titleTxt.text = stadium.name
 
         val image = stadium.imgLink
         Picasso.get()
             .load(image)
-            .resize(350, 350)
+            .resize(500, 500)
             .centerCrop()
             .placeholder(R.drawable.player)  // Placeholder image
             .error(R.drawable.error)  // Error image

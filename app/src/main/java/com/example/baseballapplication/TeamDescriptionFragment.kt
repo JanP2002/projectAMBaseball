@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.compose.ui.unit.dp
+import androidx.core.view.marginTop
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,16 +34,18 @@ class TeamDescriptionFragment : Fragment() {
         if (t != null) {
             val loseWonText = view.findViewById<TextView>(R.id.teamWinLossText)
             val favPrompt = view.findViewById<TextView>(R.id.FavPrompt)
+            val titleTxt = view.findViewById<TextView>(R.id.titleText)
             image.visibility = View.VISIBLE
             seePlayersButton.visibility = View.VISIBLE
             imageBtn.visibility = View.VISIBLE
             loseWonText.visibility = View.VISIBLE
             favPrompt.visibility = View.VISIBLE
+            titleTxt.text = t.team
             Picasso.get()
                 .load(t.imgLink)
+                .resize(500,500)
                 .placeholder(R.drawable.player)  // Placeholder image
                 .error(R.drawable.error)  // Error image
-                .fit()
                 .into(image)
             val w = t.wins
             val l = t.losses
@@ -56,8 +60,11 @@ class TeamDescriptionFragment : Fragment() {
                 }
             }
 
-            if (t.isFavorite)
+            if (t.isFavorite) {
                 imageBtn.setImageResource(R.drawable.baseline_star_24_yellow)
+                favPrompt.text = "Usun z ulubionych"
+            }
+
 
             imageBtn.setOnClickListener {
                 val teamDB by lazy { PlayerDatabase.getDatabase(requireContext()).teamDao() }
@@ -66,14 +73,16 @@ class TeamDescriptionFragment : Fragment() {
                         teamDB.addToFavorites(t.shortName)
                     }
                     imageBtn.setImageResource(R.drawable.baseline_star_24_yellow)
-                    Toast.makeText(requireContext(),"Added to favorites", Toast.LENGTH_LONG).show()
+                    favPrompt.text = "Usun z ulubionych"
+                    Toast.makeText(requireContext(),"Dodano do ulubionych", Toast.LENGTH_LONG).show()
 
                 } else {
                     CoroutineScope(Dispatchers.IO).launch {
                         teamDB.removeFromFavorites(t.shortName)
                     }
                     imageBtn.setImageResource(R.drawable.baseline_star_24)
-                    Toast.makeText(requireContext(),"Removed from favorites", Toast.LENGTH_LONG).show()
+                    favPrompt.text = "Dodaj do ulubionych"
+                    Toast.makeText(requireContext(),"Usunięto z ulubionych", Toast.LENGTH_LONG).show()
 
                 }
                 //Powrot do MainActivity
@@ -94,12 +103,15 @@ class TeamDescriptionFragment : Fragment() {
         val imageBtn = requireView().findViewById<ImageButton>(R.id.teamFavButton)
         val loseWonText = requireView().findViewById<TextView>(R.id.teamWinLossText)
         val favPrompt = requireView().findViewById<TextView>(R.id.FavPrompt)
+        val titleTxt = requireView().findViewById<TextView>(R.id.titleText)
+        titleTxt.text = team.team
 
         loseWonText.visibility = View.VISIBLE
         favPrompt.visibility = View.VISIBLE
         image.visibility = View.VISIBLE
         seePlayersButton.visibility = View.VISIBLE
         imageBtn.visibility = View.VISIBLE
+
         Picasso.get()
             .load(team.imgLink)
             .resize(400, 400)
@@ -119,8 +131,11 @@ class TeamDescriptionFragment : Fragment() {
                 startActivity(intent)
             }
         }
-        if (team.isFavorite)
+        if (team.isFavorite) {
             imageBtn.setImageResource(R.drawable.baseline_star_24_yellow)
+            favPrompt.text = "Usun z ulubionych"
+        }
+
         else
             imageBtn.setImageResource(R.drawable.baseline_star_24)
 
@@ -131,14 +146,16 @@ class TeamDescriptionFragment : Fragment() {
                     teamDB.addToFavorites(team.shortName)
                 }
                 imageBtn.setImageResource(R.drawable.baseline_star_24_yellow)
-                Toast.makeText(requireContext(),"Added to favorites", Toast.LENGTH_LONG).show()
+                favPrompt.text = "Usun z ulubionych"
+                Toast.makeText(requireContext(),"Dodano do ulubionych", Toast.LENGTH_LONG).show()
 
             } else {
                 CoroutineScope(Dispatchers.IO).launch {
                     teamDB.removeFromFavorites(team.shortName)
                 }
                 imageBtn.setImageResource(R.drawable.baseline_star_24)
-                Toast.makeText(requireContext(),"Removed from favorites", Toast.LENGTH_LONG).show()
+                favPrompt.text = "Dodaj do ulubionych"
+                Toast.makeText(requireContext(),"Usunięto z ulubionych", Toast.LENGTH_LONG).show()
 
             }
             //Powrot do MainActivity

@@ -85,6 +85,8 @@ class PlayerDescriptionFragment : Fragment() {
 
             view.findViewById<TextView>(R.id.statText).text =
                 createFlavourText(playerName,player.batStats,player.team)
+            view.findViewById<TextView>(R.id.titleText).text =
+                player.nameAndNumber
 
             val favPrompt = view.findViewById<TextView>(R.id.FavPrompt)
             val favButton = view.findViewById<ImageButton>(R.id.playerFavButton)
@@ -95,6 +97,7 @@ class PlayerDescriptionFragment : Fragment() {
             isFavorite = player.isFavorite
             if (isFavorite) {
                 imageBtn.setImageResource(R.drawable.baseline_star_24_yellow)
+                favPrompt.text = "Usun z ulubionych"
             }
 
             imageBtn.setOnClickListener {
@@ -106,7 +109,8 @@ class PlayerDescriptionFragment : Fragment() {
                     }
                     //change button appearance
                     imageBtn.setImageResource(R.drawable.baseline_star_24_yellow)
-                    Toast.makeText(requireContext(),"Added to favorites", Toast.LENGTH_LONG).show()
+                    favPrompt.text = "Usun z ulubionych"
+                    Toast.makeText(requireContext(),"Dodano do ulubionych", Toast.LENGTH_LONG).show()
                     isFavorite=true
                 } else {
                     CoroutineScope(Dispatchers.IO).launch {
@@ -114,7 +118,8 @@ class PlayerDescriptionFragment : Fragment() {
                     }
                     //change button appearance
                     imageBtn.setImageResource(R.drawable.baseline_star_24)
-                    Toast.makeText(requireContext(),"Removed from favorites", Toast.LENGTH_LONG).show()
+                    favPrompt.text = "Dodaj do ulubionych"
+                    Toast.makeText(requireContext(),"Usunięto z ulubionych", Toast.LENGTH_LONG).show()
                     isFavorite=false
                 }
                 //Powrot do MainActivity
@@ -137,11 +142,13 @@ class PlayerDescriptionFragment : Fragment() {
         val imageView = requireView().findViewById<ImageView>(R.id.playerDescriptionImage)
         Picasso.get()
             .load(imageUrl)
-            .resize(300, 300)
+            .resize(400, 400)
             .centerCrop()
             .placeholder(R.drawable.player)  // Placeholder image
             .error(R.drawable.error)  // Error image
             .into(imageView)
+        requireView().findViewById<TextView>(R.id.titleText).text =
+            player.nameAndNumber
         requireView().findViewById<TextView>(R.id.statText).text =
             createFlavourText(player.nameAndNumber, player.batStats, player.team)
 
@@ -149,6 +156,7 @@ class PlayerDescriptionFragment : Fragment() {
 //        isFavorite = player.isFavorite
         if (player.isFavorite) {
             imageBtn.setImageResource(R.drawable.baseline_star_24_yellow)
+            favPrompt.text = "Usun z ulubionych"
         }
         else {
             imageBtn.setImageResource(R.drawable.baseline_star_24)
@@ -161,14 +169,16 @@ class PlayerDescriptionFragment : Fragment() {
                     playerDB.addToFavorites(playerName)
                 }
                 imageBtn.setImageResource(R.drawable.baseline_star_24_yellow)
-                Toast.makeText(requireContext(),"Added to favorites", Toast.LENGTH_LONG).show()
+                favPrompt.text = "Usun z ulubionych"
+                Toast.makeText(requireContext(),"Dodano do ulubionych", Toast.LENGTH_LONG).show()
                 isFavorite=true
             } else {
                 CoroutineScope(Dispatchers.IO).launch {
                     playerDB.removeFromFavorites(playerName)
                 }
                 imageBtn.setImageResource(R.drawable.baseline_star_24)
-                Toast.makeText(requireContext(),"Removed from favorites", Toast.LENGTH_LONG).show()
+                favPrompt.text = "Dodaj do ulubionych"
+                Toast.makeText(requireContext(),"Usunięto z ulubionych", Toast.LENGTH_LONG).show()
                 isFavorite=false
             }
             //Powrot do MainActivity

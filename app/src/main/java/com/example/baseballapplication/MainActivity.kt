@@ -483,6 +483,63 @@ class MainActivity : ComponentActivity() {
                     }
 
                 }
+
+
+                item {
+                    Box(modifier = Modifier
+                        .padding(8.dp)
+                        .aspectRatio(1f)
+                        .clip(RoundedCornerShape(5.dp))
+                        .background(Color.hsv(0f,0f,0.29f))
+                        .clickable(onClick = {
+                            showFavouriteTeams()
+                        }),
+                        contentAlignment = Alignment.Center,
+
+                        ) {
+
+                        Column(
+                            modifier = Modifier.fillMaxHeight(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+
+
+
+                            Box(contentAlignment = Alignment.TopCenter)
+                            {
+                                Text(
+                                    text = "Ulubione Drużyny",
+                                    modifier = Modifier.padding(padding.dp),
+                                    style = TextStyle(color = Color.White, fontSize = 20.sp)
+                                )
+
+                            }
+                            Box(contentAlignment = Alignment.Center)
+                            {
+//                                Text(
+//                                    text = "⭐",
+//                                    modifier = Modifier.padding(padding.dp).height(200.dp),
+//                                    style = TextStyle(color = Color.Black, fontSize = 60.sp)
+//                                )
+                                Image(
+                                    painter = painterResource(R.drawable.baseline_star_24_yellow),
+                                    contentDescription = "My Image",
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .height(200.dp),
+                                    contentScale = ContentScale.FillHeight,
+                                )
+
+                            }
+                        }
+
+
+
+                    }
+
+                }
+
                 item {
                     Box(modifier = Modifier
                         .padding(8.dp)
@@ -532,52 +589,7 @@ class MainActivity : ComponentActivity() {
 
                 }
 
-                item {
-                    Box(modifier = Modifier
-                        .padding(8.dp)
-                        .aspectRatio(1f)
-                        .clip(RoundedCornerShape(5.dp))
-                        .background(Color.hsv(0f,0f,0.29f))
-                        .clickable(onClick = {
-                            showFavouriteTeams()
-                        }),
-                        contentAlignment = Alignment.Center,
 
-                        ) {
-
-                        Column(
-                            modifier = Modifier.fillMaxHeight(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-
-
-
-                            Box(contentAlignment = Alignment.TopCenter)
-                            {
-                                Text(
-                                    text = "Ulubione Drużyny",
-                                    modifier = Modifier.padding(padding.dp),
-                                    style = TextStyle(color = Color.White, fontSize = 20.sp)
-                                )
-
-                            }
-                            Box(contentAlignment = Alignment.Center)
-                            {
-                                Text(
-                                    text = "⭐",
-                                    modifier = Modifier.padding(padding.dp),
-                                    style = TextStyle(color = Color.Black, fontSize = 60.sp)
-                                )
-
-                            }
-                        }
-
-
-
-                    }
-
-                }
 
             }
 
